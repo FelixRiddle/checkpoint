@@ -31,11 +31,14 @@ module.exports = class ValidationResult {
      * 
      * @param {string} field The field name for example 'email', 'password'
      * @param {string} message The field message for example 'Email not given'
+     * @returns {ValidationResult}
      */
     setAsError(field, message) {
         this.error = true;
         this.field = field;
         this.message = message;
+        
+        return this;
     }
     
     /**
@@ -43,10 +46,13 @@ module.exports = class ValidationResult {
      * 
      * @param {string} field The field name for example 'email', 'password'
      * @param {string} message The field message for example 'Email Ok'
+     * @returns {ValidationResult}
      */
     setAsSuccess(field, message) {
         this.error = false;
         this.field = field;
         this.message = message;
+        
+        return this;
     }
 }

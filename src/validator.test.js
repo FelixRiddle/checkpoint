@@ -18,4 +18,16 @@ test("Validate wrong email doesn't pass", () => {
         ).isEmail();
     
     expect(val.passed).toBe(false);
-})
+});
+
+test("Validate override last message message", () => {
+    // Create validator
+    let newMsg = "Email is wrong";
+    let val = new Validator(
+            "asfsfs@asdff",
+            "email",
+        ).isEmail()
+        .overrideMessage(newMsg);
+    
+    expect(val.fetchLastMessage().message).toBe(newMsg);
+});

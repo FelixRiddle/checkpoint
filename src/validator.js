@@ -1,3 +1,5 @@
+const ValidationResult = require("./validationResult");
+
 /**
  * Validator object
  * 
@@ -7,6 +9,8 @@ module.exports = class Validator {
     passed = true;
     // Gather messages here
     messages = [];
+    // Know you checkpoint
+    lastCheckpoint = "";
     
     /**
      * Create object with the given data.
@@ -26,6 +30,14 @@ module.exports = class Validator {
     isNotFalsy() {
         if(!this.data) {
             this.passed = false;
+            this.lastCheckpoint = "isNotFalsy";
+            this.messages.push(
+                new ValidationResult()
+                    .setAsError(
+                        this.fieldName,
+                        `The field ${this.fieldName} is falsy, that means the data given is not correct.`
+                    )
+            );
         }
         
         return this;
@@ -40,6 +52,14 @@ module.exports = class Validator {
     maxLength(length) {
         if(this.data.length > length) {
             this.passed = false;
+            this.lastCheckpoint = "maxLength";
+            this.messages.push(
+                new ValidationResult()
+                    .setAsError(
+                        this.fieldName,
+                        `The field ${this.fieldName} can't exceed ${length} characters.`
+                    )
+            );
         }
         
         return this;
@@ -53,22 +73,30 @@ module.exports = class Validator {
     isEmail() {
         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.data))) {
             this.passed = false;
+            this.lastCheckpoint = "isEmail";
+            this.messages.push(
+                new ValidationResult()
+                    .setAsError(
+                        this.fieldName,
+                        `The field ${this.fieldName} is not an E-Mail.`
+                    )
+            );
         }
         
         return this;
     }
     
     /**
-     * Give a message if it fails
+     * Override message of the previous check
      * 
      * @param {string} msg
      * @returns {ValidationResult}
      */
-    msg(msg) {
-        if(!this.passed) {
-            return new ValidationResult()
-                .setAsError(this.fieldName, msg);
-        }
+    overrideMessage(msg) {
+        // Fetch last message and change it.
+        this.fetchLastMessage().message = msg;
+        
+        return this;
     }
     
     /**
@@ -86,5 +114,24 @@ module.exports = class Validator {
         });
         
         return errors;
+    }
+    
+    // --- Transform Validator ---
+    /**
+     * Fetch last message
+     * 
+     * @param {boolean} pop Remove it from the list
+     * @returns {ValidationResult}
+     */
+    fetchLastMessage(pop = false) {
+        // If pop, remove it and return
+        if(pop) {
+            return this.messages.pop();
+        }
+        
+        // Fetch last message
+        let lastMessage = this.messages[this.messages.length - 1];
+        
+        return lastMessage;
     }
 }
