@@ -31,3 +31,14 @@ test("Validate override last message message", () => {
     
     expect(val.fetchLastMessage().message).toBe(newMsg);
 });
+
+test("Validate that the last message is popped", () => {
+    // Create validator
+    let val = new Validator(
+            "asfsfs@asdff",
+            "email",
+        ).isEmail();
+    let _lastMessage = val.fetchLastMessage(true)
+    
+    expect(val.messages.length).toBe(0);
+});
