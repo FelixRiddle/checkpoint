@@ -1,5 +1,5 @@
 // Fetch all values from a form and return it as an object
-function formFetchAllValues(
+module.exports = function formFetchAllValues(
     inputElementsNames, // Array
 ) {
     // Get every element value
@@ -20,5 +20,3 @@ function formFetchAllValues(
     
     return dataObject;
 }
-
-export default formFetchAllValues;

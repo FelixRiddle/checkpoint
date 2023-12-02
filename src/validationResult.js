@@ -2,7 +2,7 @@
  * The result of a validation
  * 
  */
-class ValidationResult {
+module.exports = class ValidationResult {
     error = false;
     message = "";
     field = "";
@@ -50,5 +50,3 @@ class ValidationResult {
         this.message = message;
     }
 }
-
-export default ValidationResult;
