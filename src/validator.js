@@ -22,6 +22,7 @@ module.exports = class Validator {
         this.fieldName = fieldName;
     }
     
+    // --- Validation functions ---
     /**
      * If the data given is not falsy it passes the check
      * 
@@ -66,6 +67,28 @@ module.exports = class Validator {
     }
     
     /**
+     * Minimum length
+     * 
+     * @param {Number} length 
+     * @returns {Validator}
+     */
+    minLength(length) {
+        if(this.data.length < length) {
+            this.passed = false;
+            this.lastCheckpoint = "maxLength";
+            this.messages.push(
+                new ValidationResult()
+                    .setAsError(
+                        this.fieldName,
+                        `The field ${this.fieldName} can't have less than ${length} characters.`
+                    )
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
      * Check if it's an email
      * 
      * @returns {Validator}
@@ -82,6 +105,115 @@ module.exports = class Validator {
                     )
             );
         }
+        
+        return this;
+    }
+    
+    // - Data types -
+    /**
+     * 
+     * Check if the data given is a number
+     * 
+     * @returns {Validator}
+     */
+    isNum() {
+        if(!(typeof(this.data) === typeof(0))) {
+            this.appendFailedCheckpoint(
+                "isNum",
+                `The field ${this.fieldName} is not a number.`
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
+     * 
+     * Check if the data given is a number
+     * 
+     * @returns {Validator}
+     */
+    isStr() {
+        if(!(typeof(this.data) === typeof(""))) {
+            this.appendFailedCheckpoint(
+                "isStr",
+                `The field ${this.fieldName} is not a string.`
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
+     * 
+     * Check if the data given is a boolean
+     * 
+     * @returns {Validator}
+     */
+    isBool() {
+        if(!(typeof(this.data) === typeof(true))) {
+            this.appendFailedCheckpoint(
+                "isBool",
+                `The field ${this.fieldName} is not a boolean.`
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
+     * 
+     * Check if the data given is an array
+     * 
+     * @returns {Validator}
+     */
+    isArray() {
+        if(!(typeof(this.data) === typeof([]))) {
+            this.appendFailedCheckpoint(
+                "isArr",
+                `The field ${this.fieldName} is not an array.`
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
+     * 
+     * Check if the data given is an object
+     * 
+     * @returns {Validator}
+     */
+    isObject() {
+        if(!(typeof(this.data) === typeof({}))) {
+            this.appendFailedCheckpoint(
+                "isObject",
+                `The field ${this.fieldName} is not an object.`
+            );
+        }
+        
+        return this;
+    }
+    
+    // --- Miscellaneous ---
+    
+    /**
+     * Add a failed checkpoint
+     * 
+     * @param {string} checkpointName 
+     * @param {string} message 
+     * @returns {Validator}
+     */
+    appendFailedCheckpoint(checkpointName, message) {
+        this.passed = false;
+        this.lastCheckpoint = checkpointName;
+        this.messages.push(
+            new ValidationResult()
+                .setAsError(
+                    this.fieldName,
+                    message,
+                )
+        );
         
         return this;
     }

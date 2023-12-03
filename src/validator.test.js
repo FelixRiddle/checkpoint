@@ -42,3 +42,84 @@ test("Validate that the last message is popped", () => {
     
     expect(val.messages.length).toBe(0);
 });
+
+test("Min length", () => {
+    // Create validator
+    let val = new Validator(
+            "asdf",
+            "title",
+        ).minLength("asdf".length);
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Min length, lesser length fails", () => {
+    // Create validator
+    let val = new Validator(
+            "asd",
+            "title",
+        ).minLength("asdf".length);
+    
+    expect(val.passed).toBe(false);
+});
+
+// --- Data types ---
+test("Data type is number", () => {
+    // Create validator
+    let val = new Validator(
+            1,
+            "title",
+        ).isNum();
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Data type is string", () => {
+    // Create validator
+    let val = new Validator(
+            "",
+            "title",
+        ).isStr();
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Data type is not string", () => {
+    // Create validator
+    let val = new Validator(
+            1,
+            "title",
+        ).isStr();
+    
+    expect(val.passed).toBe(false);
+});
+
+test("Data type is boolean", () => {
+    // Create validator
+    let val = new Validator(
+            true,
+            "something",
+        ).isBool();
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Data type is array", () => {
+    // Create validator
+    let val = new Validator(
+            [],
+            "something",
+        ).isArray();
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Data type is object", () => {
+    // Create validator
+    let val = new Validator(
+            {},
+            "something",
+        ).isObject();
+    
+    expect(val.passed).toBe(true);
+});
