@@ -129,6 +129,25 @@ module.exports = class Validator {
     
     /**
      * 
+     * Number range
+     * 
+     * Doesn't check whether the field is a number, this should be done before
+     * 
+     * @returns {Validator}
+     */
+    numRange(min, max) {
+        if(this.data < min || this.data > max) {
+            this.appendFailedCheckpoint(
+                "numRange",
+                `The field ${this.fieldName} is not in the number range ${min} to ${max}.`
+            );
+        }
+        
+        return this;
+    }
+    
+    /**
+     * 
      * Check if the data given is a number
      * 
      * @returns {Validator}

@@ -123,3 +123,39 @@ test("Data type is object", () => {
     
     expect(val.passed).toBe(true);
 });
+
+test("Number range", () => {
+    // Create validator
+    let val = new Validator(
+            5,
+            "something",
+        ).numRange(
+            1, 10
+        );
+    
+    expect(val.passed).toBe(true);
+});
+
+test("Number range fails #1", () => {
+    // Create validator
+    let val = new Validator(
+            -5,
+            "something",
+        ).numRange(
+            1, 10
+        );
+    
+    expect(val.passed).toBe(false);
+});
+
+test("Number range fails #2", () => {
+    // Create validator
+    let val = new Validator(
+            15,
+            "something",
+        ).numRange(
+            1, 10
+        );
+    
+    expect(val.passed).toBe(false);
+});
