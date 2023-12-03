@@ -1,3 +1,4 @@
+const Scope = require("./scope");
 const ValidationResult = require("./validationResult");
 
 /**
@@ -20,6 +21,9 @@ module.exports = class Validator {
     constructor(data, fieldName) {
         this.data = data;
         this.fieldName = fieldName;
+        
+        // Use the scope to record operations
+        this.scope = new Scope(fieldName);
     }
     
     // --- Validation functions ---
@@ -29,6 +33,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isNotFalsy() {
+        // Append operation
+        this.scope.appendOperation("isNotFalsy");
+        
         if(!this.data) {
             // Insert new failed checkpoint
             this.appendFailedCheckpoint(
@@ -47,6 +54,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     maxLength(length) {
+        // Append operation
+        this.scope.appendOperation("maxLength", {});
+        
         if(this.data.length > length) {
             // Insert new failed checkpoint
             this.appendFailedCheckpoint(
@@ -65,6 +75,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     minLength(length) {
+        // Append operation
+        this.scope.appendOperation("minLength");
+        
         if(this.data.length < length) {
             // Insert new failed checkpoint
             this.appendFailedCheckpoint(

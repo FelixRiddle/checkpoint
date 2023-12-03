@@ -1,4 +1,4 @@
-const Operation = require("./operation.js");
+const Operation = require("./operation/operation.js");
 
 /**
  * Scope class
