@@ -7,7 +7,7 @@
  * @returns {boolean}
  */
 function isNotFalsy(data) {
-    return data && data;
+    return data && true || false;
 }
 
 /**
@@ -129,6 +129,7 @@ module.exports = {
     isNotFalsy,
     maxLength,
     minLength,
+    lengthRange,
     isEmail,
     isNum,
     numRange,
