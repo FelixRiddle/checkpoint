@@ -30,14 +30,10 @@ module.exports = class Validator {
      */
     isNotFalsy() {
         if(!this.data) {
-            this.passed = false;
-            this.lastCheckpoint = "isNotFalsy";
-            this.messages.push(
-                new ValidationResult()
-                    .setAsError(
-                        this.fieldName,
-                        `The field ${this.fieldName} is falsy, that means the data given is not correct.`
-                    )
+            // Insert new failed checkpoint
+            this.appendFailedCheckpoint(
+                "isNotFalsy",
+                `The field ${this.fieldName} is falsy, that means the data given is not correct.`
             );
         }
         
@@ -52,14 +48,10 @@ module.exports = class Validator {
      */
     maxLength(length) {
         if(this.data.length > length) {
-            this.passed = false;
-            this.lastCheckpoint = "maxLength";
-            this.messages.push(
-                new ValidationResult()
-                    .setAsError(
-                        this.fieldName,
-                        `The field ${this.fieldName} can't exceed ${length} characters.`
-                    )
+            // Insert new failed checkpoint
+            this.appendFailedCheckpoint(
+                "maxLength",
+                `The field ${this.fieldName} can't exceed ${length} characters.`
             );
         }
         
@@ -74,14 +66,10 @@ module.exports = class Validator {
      */
     minLength(length) {
         if(this.data.length < length) {
-            this.passed = false;
-            this.lastCheckpoint = "maxLength";
-            this.messages.push(
-                new ValidationResult()
-                    .setAsError(
-                        this.fieldName,
-                        `The field ${this.fieldName} can't have less than ${length} characters.`
-                    )
+            // Insert new failed checkpoint
+            this.appendFailedCheckpoint(
+                "minLength",
+                `The field ${this.fieldName} can't have less than ${length} characters.`
             );
         }
         
@@ -95,14 +83,10 @@ module.exports = class Validator {
      */
     isEmail() {
         if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.data))) {
-            this.passed = false;
-            this.lastCheckpoint = "isEmail";
-            this.messages.push(
-                new ValidationResult()
-                    .setAsError(
-                        this.fieldName,
-                        `The field ${this.fieldName} is not an E-Mail.`
-                    )
+            // Insert new failed checkpoint
+            this.appendFailedCheckpoint(
+                "isEmail",
+                `The field ${this.fieldName} is not an E-Mail.`
             );
         }
         
