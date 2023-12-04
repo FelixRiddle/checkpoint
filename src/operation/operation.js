@@ -1,4 +1,5 @@
 const op = require("./operationLib");
+const FailureMessage = require("./failureMessages");
 
 /**
  * Operations enum
@@ -86,6 +87,78 @@ module.exports = class Operation {
             }
             case this.LengthRange: {
                 result = op.lengthRange(data, ...Object.values(args));
+                break;
+            }
+            default: {
+                throw Error("The given operation id does not exist.");
+            }
+        };
+        
+        return result;
+    }
+    
+    /**
+     * Get the failure message of an operation
+     * 
+     * @param {number} operation Operation enum id.
+     * @param {string} fieldName Field name.
+     * @param {*} data Operation data.
+     * @param {object} args Optional arguments that some operations require.
+     * @returns {string} 
+     */
+    static failureMessage(operation, fieldName, data, args = {}) {
+        let result = false;
+        
+        // Create object
+        let failMsg = new FailureMessage(
+            fieldName,
+            data,
+        );
+        
+        // Execute operation
+        switch(operation) {
+            case(this.IsNotFalsy): {
+                result = failMsg.isNotFalsy(...Object.values(args));
+                break;
+            }
+            case this.MaxLength: {
+                result = failMsg.maxLength(...Object.values(args));
+                break;
+            }
+            case this.MinLength: {
+                result = failMsg.minLength(...Object.values(args));
+                break;
+            }
+            case this.IsEmail: {
+                result = failMsg.isEmail(...Object.values(args));
+                break;
+            }
+            case this.NumRange: {
+                result = failMsg.numRange(...Object.values(args));
+                break;
+            }
+            case this.IsNum: {
+                result = failMsg.isNum(...Object.values(args));
+                break;
+            }
+            case this.IsStr: {
+                result = failMsg.isStr(...Object.values(args));
+                break;
+            }
+            case this.IsBool: {
+                result = failMsg.isBool(...Object.values(args));
+                break;
+            }
+            case this.IsArray: {
+                result = failMsg.isArray(...Object.values(args));
+                break;
+            }
+            case this.IsObject: {
+                result = failMsg.isObject(...Object.values(args));
+                break;
+            }
+            case this.LengthRange: {
+                result = failMsg.lengthRange(...Object.values(args));
                 break;
             }
             default: {
