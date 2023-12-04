@@ -9,6 +9,7 @@ const OperationController = require("./operation/OperationController.js");
  */
 module.exports = class Scope {
     name = "";
+    // Array of 'OperationController's
     operations = [];
     
     /**
@@ -29,22 +30,60 @@ module.exports = class Scope {
     /**
      * Append a operation to the list
      * 
-     * @param {number} operationId 
-     * @param {object} operationArgs 
+     * @param {number} operationId Operation id
+     * @param {FieldData} fieldData Field data
+     * @param {object} operationArgs Operation args
      * @returns {Scope}
      */
-    appendOperation(operationId, fieldName, data, operationArgs = {}) {
+    appendOperation(operationId, fieldData, operationArgs = {}) {
+        // Create operation
         let op = new OperationController(
             operationId,
-            fieldName,
-            data,
+            fieldData,
             operationArgs,
-        )
-        
-        // Create a new operation
-        this.operations.push(
         );
         
+        // Create a new operation
+        this.operations.push(op);
+        
         return this;
+    }
+    
+    /**
+     * Run every operation in this scope
+     * 
+     * @return {Array} Returns an array of messages
+     */
+    runOperations() {
+        let resultMessages = [];
+        
+        // Iterate over ops
+        for(let op of this.operations) {
+            // It could be a string or undefined
+            let result = op.executeAndGetMessage();
+            if(result) {
+                // If exists, push it
+                resultMessages.push(result);
+            }
+        }
+        
+        return resultMessages;
+    }
+    
+    /**
+     * 
+     * Find a scope by name
+     * 
+     * @param {Array} scopes Array of scopes
+     * @param {string} name Name of the scope to find
+     * @returns {*} The scope that was found or undefined
+     */
+    static findByName(scopes, name) {
+        for(let scope in scopes) {
+            // Check if name match and return it
+            if(scope.name === name) {
+                return scope;
+            }
+        }
     }
 }
