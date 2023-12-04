@@ -18,7 +18,7 @@ function isNotFalsy(data) {
  * @returns {boolean}
  */
 function maxLength(data, length) {
-    return data.length > length;
+    return data.length >= length;
 }
 
 /**
@@ -29,7 +29,7 @@ function maxLength(data, length) {
  * @returns {boolean}
  */
 function minLength(data, length) {
-    return data.length < length;
+    return data.length <= length;
 }
 
 /**
@@ -78,7 +78,7 @@ function isNum(data) {
  * @returns {boolean}
  */
 function numRange(data, min, max) {
-    return (data < min || data > max);
+    return (data >= min || data <= max);
 }
 
 /**
@@ -99,7 +99,7 @@ function isStr(data) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isBool() {
+function isBool(data) {
     return (typeof(data) === typeof(true));
 }
 

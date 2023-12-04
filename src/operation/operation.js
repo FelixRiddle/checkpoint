@@ -49,15 +49,43 @@ module.exports = class Operation {
                 break;
             }
             case this.MaxLength: {
-                result = op.maxLength(data);
+                result = op.maxLength(data, ...Object.values(args));
                 break;
             }
             case this.MinLength: {
-                result = op.minLength(data);
+                result = op.minLength(data, ...Object.values(args));
+                break;
+            }
+            case this.IsEmail: {
+                result = op.isEmail(data, ...Object.values(args));
+                break;
+            }
+            case this.NumRange: {
+                result = op.numRange(data, ...Object.values(args));
+                break;
+            }
+            case this.IsNum: {
+                result = op.isNum(data, ...Object.values(args));
+                break;
+            }
+            case this.IsStr: {
+                result = op.isStr(data, ...Object.values(args));
+                break;
+            }
+            case this.IsBool: {
+                result = op.isBool(data, ...Object.values(args));
+                break;
+            }
+            case this.IsArray: {
+                result = op.isArray(data, ...Object.values(args));
+                break;
+            }
+            case this.IsObject: {
+                result = op.isObject(data, ...Object.values(args));
                 break;
             }
             case this.LengthRange: {
-                result = op.minLength(data);
+                result = op.lengthRange(data, ...Object.values(args));
                 break;
             }
             default: {
