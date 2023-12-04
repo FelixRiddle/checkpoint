@@ -10,7 +10,7 @@ module.exports = class ValidationResult {
     /**
      * Create object with the given data.
      *
-     * @author: Felix
+     * @author Felix
      */
     constructor() { }
     

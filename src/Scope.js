@@ -1,5 +1,5 @@
+const ValidationResult = require("./ValidationResult.js");
 const FieldData = require("./model/FieldData.js");
-const Operation = require("./model/Operation.js");
 const OperationController = require("./operation/OperationController.js");
 
 /**
@@ -31,15 +31,14 @@ module.exports = class Scope {
      * Append a operation to the list
      * 
      * @param {number} operationId Operation id
-     * @param {FieldData} fieldData Field data
      * @param {object} operationArgs Operation args
      * @returns {Scope}
      */
-    appendOperation(operationId, fieldData, operationArgs = {}) {
+    appendOperation(operationId, operationArgs = {}) {
         // Create operation
         let op = new OperationController(
             operationId,
-            fieldData,
+            this.fieldData,
             operationArgs,
         );
         
@@ -53,6 +52,7 @@ module.exports = class Scope {
      * Run every operation in this scope
      * 
      * @return {Array} Returns an array of messages
+     * The messages are contained in the 'ValidationResult' class.
      */
     runOperations() {
         let resultMessages = [];
@@ -62,8 +62,11 @@ module.exports = class Scope {
             // It could be a string or undefined
             let result = op.executeAndGetMessage();
             if(result) {
-                // If exists, push it
-                resultMessages.push(result);
+                // Create validation result
+                let resMsg = new ValidationResult();
+                resMsg.setAsError(this.fieldData.fieldName, result);
+                
+                resultMessages.push(resMsg);
             }
         }
         
