@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "cmd": "node src/cmd/index.js",
     "test": "jest"
   },
   "keywords": [],
   "author": "Felix Riddle",
   "license": "ISC",
   "devDependencies": {
+    "argparse": "^2.0.1",
     "jest": "^29.7.0"
   }
 }
