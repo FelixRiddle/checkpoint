@@ -1,4 +1,4 @@
-const Validator = require("./validator");
+const Validator = require("./Validator");
 
 test("Validate falsy doesn't pass", () => {
     // Create validator

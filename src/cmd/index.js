@@ -4,6 +4,7 @@
 const { ArgumentParser } = require("argparse");
 
 const message = require("./message");
+const Scope = require("../Scope");
 
 const parser = new ArgumentParser({
     description: "Some commands"

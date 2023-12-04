@@ -1,5 +1,5 @@
-const Scope = require("./scope");
-const ValidationResult = require("./validationResult");
+const Scope = require("./Scope");
+const ValidationResult = require("./ValidationResult");
 
 /**
  * Validator object
@@ -8,10 +8,10 @@ const ValidationResult = require("./validationResult");
 module.exports = class Validator {
     // If it has passed every test
     passed = true;
-    // Gather messages here
+    // Messages
     messages = [];
-    // Know you checkpoint
-    lastCheckpoint = "";
+    // Scopes
+    scopes = [];
     
     /**
      * Create object with the given data.

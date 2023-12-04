@@ -1,12 +1,51 @@
-const Operation = require("./Operation");
+const FieldData = require("../model/FieldData");
+const Operation = require("../model/Operation");
 const OperationController = require("./OperationController");
+
+// Username
+let username = new FieldData(
+    "username",
+    "FelixRiddle23"
+);
+let badUsername = new FieldData(
+    "username",
+    ""
+);
+// E-Mail
+let email = new FieldData(
+    "email",
+    "felix_riddle23@email.com"
+);
+// Age
+let age = new FieldData(
+    "age",
+    23
+);
+// Allow notifications
+let allowNotifications = new FieldData(
+    "allowNotifications",
+    false,
+);
+// Favorite colors
+let favoriteColors = new FieldData(
+    "favoriteColors",
+    ["Cyan", "Green"]
+);
+// Resources
+let resources = new FieldData(
+    "resources",
+    {
+        gold: 24214,
+        elixir: 456324,
+        wood: 4324,
+    }
+);
 
 test("Data is not falsy", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNotFalsy,
-        "name",
-        "Felix",
+        username,
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -16,8 +55,7 @@ test("Data is falsy", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNotFalsy,
-        "name",
-        "",
+        badUsername,
     );
     
     expect(opCtrl.execute()).toBe(false);
@@ -27,10 +65,9 @@ test("Max length", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.MaxLength,
-        "name",
-        "Felix",
+        username,
         {
-            max: 5,
+            max: 64,
         }
     );
     
@@ -41,8 +78,7 @@ test("Min length", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.MinLength,
-        "name",
-        "Felix",
+        username,
         {
             min: 5,
         }
@@ -55,8 +91,7 @@ test("Is email", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsEmail,
-        "name",
-        "felix@email.com",
+        email,
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -66,11 +101,10 @@ test("Num range", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.NumRange,
-        "number",
-        5,
+        age,
         {
-            min: 1,
-            max: 10,
+            min: 10,
+            max: 120,
         }
     );
     
@@ -81,8 +115,7 @@ test("Is num", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNum,
-        "number",
-        5,
+        age
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -92,8 +125,7 @@ test("Is Str", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsStr,
-        "name",
-        "Felix"
+        username,
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -103,8 +135,7 @@ test("Is bool", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsBool,
-        "fieldName",
-        true
+        allowNotifications
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -114,8 +145,7 @@ test("Is array", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsArray,
-        "fieldName",
-        []
+        favoriteColors
     );
     
     expect(opCtrl.execute()).toBe(true);
@@ -125,8 +155,7 @@ test("Is object", () => {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsObject,
-        "fieldName",
-        {}
+        resources,
     );
     
     expect(opCtrl.execute()).toBe(true);

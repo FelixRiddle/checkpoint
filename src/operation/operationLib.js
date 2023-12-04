@@ -18,7 +18,7 @@ function isNotFalsy(data) {
  * @returns {boolean}
  */
 function maxLength(data, length) {
-    return data.length >= length;
+    return data.length <= length;
 }
 
 /**
@@ -29,7 +29,7 @@ function maxLength(data, length) {
  * @returns {boolean}
  */
 function minLength(data, length) {
-    return data.length <= length;
+    return data.length >= length;
 }
 
 /**

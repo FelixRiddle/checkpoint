@@ -2,8 +2,9 @@
 //
 // Operation is low level code, normally you would use one of the high level apis
 const FailureMessage = require("./FailureMessage");
-const Operation = require("./Operation");
+const Operation = require("../model/Operation");
 const operationLib = require("./operationLib");
+const FieldData = require("../model/FieldData");
 
 /**
  * Operation controller class
@@ -16,15 +17,13 @@ module.exports = class OperationController {
      * Create operation controller
      * 
      * @param {number} operation Operation id.
-     * @param {string} fieldName Field name.
-     * @param {*} data Data to perform the operation on.
+     * @param {FieldData} fieldData Field data container
      * @param {object} args Operation arguments, like max length, min length, etc.
      * For the args it doesn't matter the names, just the order.
      */
-    constructor(operation, fieldName, data, args = {}) {
+    constructor(operation, fieldData, args = {}) {
         this.operation = operation;
-        this.fieldName = fieldName;
-        this.data = data;
+        this.fieldData = fieldData;
         this.args = args;
     }
     
@@ -41,47 +40,47 @@ module.exports = class OperationController {
         // Execute operation
         switch(this.operation) {
             case(Operation.IsNotFalsy): {
-                result = operationLib.isNotFalsy(this.data, ...Object.values(this.args));
+                result = operationLib.isNotFalsy(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.MaxLength: {
-                result = operationLib.maxLength(this.data, ...Object.values(this.args));
+                result = operationLib.maxLength(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.MinLength: {
-                result = operationLib.minLength(this.data, ...Object.values(this.args));
+                result = operationLib.minLength(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsEmail: {
-                result = operationLib.isEmail(this.data, ...Object.values(this.args));
+                result = operationLib.isEmail(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.NumRange: {
-                result = operationLib.numRange(this.data, ...Object.values(this.args));
+                result = operationLib.numRange(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsNum: {
-                result = operationLib.isNum(this.data, ...Object.values(this.args));
+                result = operationLib.isNum(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsStr: {
-                result = operationLib.isStr(this.data, ...Object.values(this.args));
+                result = operationLib.isStr(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsBool: {
-                result = operationLib.isBool(this.data, ...Object.values(this.args));
+                result = operationLib.isBool(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsArray: {
-                result = operationLib.isArray(this.data, ...Object.values(this.args));
+                result = operationLib.isArray(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsObject: {
-                result = operationLib.isObject(this.data, ...Object.values(this.args));
+                result = operationLib.isObject(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.LengthRange: {
-                result = operationLib.lengthRange(this.data, ...Object.values(this.args));
+                result = operationLib.lengthRange(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             default: {
@@ -101,10 +100,7 @@ module.exports = class OperationController {
         let result = false;
         
         // Create object
-        let failMsg = new FailureMessage(
-            this.fieldName,
-            this.data,
-        );
+        let failMsg = new FailureMessage(this.fieldData);
         
         // Execute operation
         switch(this.operation) {
@@ -172,8 +168,8 @@ module.exports = class OperationController {
      */
     executeAndGetMessage() {
         // Execute operation
-        if(!this.execute(this.operation, this.data, this.args)) {
-            return this.failureMessage(this.operation, this.fieldName, this.data, this.args); 
+        if(!this.execute()) {
+            return this.failureMessage(); 
         }
     }
 };
