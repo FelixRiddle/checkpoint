@@ -1,4 +1,4 @@
-const op = require("../operation/operation");
+const op = require("../operation/Operation");
 
 // See example message
 module.exports = function() {

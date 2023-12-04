@@ -1,5 +1,5 @@
-const Operation = require("./operation");
-const OperationController = require("./operationController");
+const Operation = require("./Operation");
+const OperationController = require("./OperationController");
 
 test("Data is not falsy", () => {
     // Operation controller

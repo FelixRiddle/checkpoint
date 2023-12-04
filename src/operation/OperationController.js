@@ -1,5 +1,8 @@
-const FailureMessage = require("./failureMessages");
-const Operation = require("./operation");
+// Operation controller
+//
+// Operation is low level code, normally you would use one of the high level apis
+const FailureMessage = require("./FailureMessage");
+const Operation = require("./Operation");
 const operationLib = require("./operationLib");
 
 /**
