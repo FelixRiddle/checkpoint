@@ -34,8 +34,12 @@ module.exports = class Validator {
      */
     createScope(scopeName, fieldName, data) {
         if(this.config.debug) console.log(`Create scope ${scopeName}`);
+        
+        let fieldData = new FieldData(fieldName, data);
+        if(this.config.debug) console.log(`Field data: `, fieldData);
+        
         // Create new scope
-        this.scope = new Scope(scopeName, new FieldData(fieldName, data), { debug: this.config.debug });
+        this.scope = new Scope(scopeName, fieldData, { debug: this.config.debug });
         
         // Append scope to the list
         this.scopes.push(this.scope);

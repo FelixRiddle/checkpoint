@@ -25,6 +25,7 @@ module.exports = class OperationController {
         this.operation = operation;
         this.fieldData = fieldData;
         this.args = args;
+        this.config = config;
     }
     
     /**

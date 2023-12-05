@@ -23,7 +23,7 @@ module.exports = class Scope {
         debug: false,
     }) {
         this.name = scopeName;
-        this.data = fieldData;
+        this.fieldData = fieldData;
         this.config = config;
     }
     
