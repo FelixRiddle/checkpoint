@@ -97,7 +97,7 @@ module.exports = class OperationController {
      * @returns {string} 
      */
     failureMessage() {
-        let result = false;
+        let result = "";
         
         // Create object
         let failMsg = new FailureMessage(this.fieldData);
@@ -167,9 +167,12 @@ module.exports = class OperationController {
      * @returns {*} string or undefined 
      */
     executeAndGetMessage() {
+        let opResult = this.execute();
+        
         // Execute operation
-        if(!this.execute()) {
-            return this.failureMessage(); 
+        if(!opResult) {
+            let failureMessage = this.failureMessage();
+            return failureMessage; 
         }
     }
 };

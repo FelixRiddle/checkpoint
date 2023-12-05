@@ -1,29 +1,80 @@
 const Scope = require("./Scope");
 const ValidationResult = require("./ValidationResult");
+const Operation = require("./model/Operation");
 
 /**
  * Validator object
  * 
+ * @author Felix Riddle
  */
 module.exports = class Validator {
-    // If it has passed every test
+    // If every test has passed
     passed = true;
-    // Messages
-    messages = [];
     // Scopes
     scopes = [];
     
     /**
      * Create object with the given data.
      *
-     * @author: Felix
      */
-    constructor(data, fieldName) {
-        this.data = data;
-        this.fieldName = fieldName;
+    constructor(config = {}) { }
+    
+    /**
+     * Create a new scope.
+     * 
+     * Create a scope and set the data to it.
+     * 
+     * Use it for every field that needs valiation.
+     * 
+     * @param {string} scopeName Scope name
+     * @returns {Validator} This object
+     */
+    createScope(scopeName, fieldName, data) {
+        // Create new scope
+        this.scope = new Scope(scopeName, fieldName, data);
         
-        // Use the scope to record operations
-        this.scope = new Scope(fieldName);
+        // Append scope to the list
+        this.scopes.push(this.scope);
+        
+        return this;
+    }
+    
+    /**
+     * Check that a scope exists, otherwise throw an error.
+     */
+    scopeValidation() {
+        if(!this.scope) {
+            throw Error("You must create a scope prior to validate the data.");
+        }
+    }
+    
+    /**
+     * Validate
+     * 
+     * Run operations, and return its result messages
+     * 
+     * @returns {Array} An array of 'ValidationResult'
+     */
+    validate() {
+        let results = [];
+        
+        // Run operations
+        this.scopes.map((scope, _index, _a) => {
+            let result = scope.runOperations();
+            
+            results = results.concat(result);
+        });
+        
+        return results;
+    }
+    
+    /**
+     * Alias for validate
+     * 
+     * @returns {Array} An array of 'ValidationResult'
+     */
+    run() {
+        return this.validate();
     }
     
     // --- Validation functions ---
@@ -33,17 +84,10 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isNotFalsy() {
+        this.scopeValidation();
+        
         // Append operation
-        this.scope.appendOperation("isNotFalsy");
-        
-        if(!this.data) {
-            // Insert new failed checkpoint
-            this.appendFailedCheckpoint(
-                "isNotFalsy",
-                `The field ${this.fieldName} is falsy, that means the data given is not correct.`
-            );
-        }
-        
+        this.scope.appendOperation(Operation.IsNotFalsy);
         return this;
     }
     
@@ -54,17 +98,12 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     maxLength(length) {
+        this.scopeValidation();
+        
         // Append operation
-        this.scope.appendOperation("maxLength", {});
-        
-        if(this.data.length > length) {
-            // Insert new failed checkpoint
-            this.appendFailedCheckpoint(
-                "maxLength",
-                `The field ${this.fieldName} can't exceed ${length} characters.`
-            );
-        }
-        
+        this.scope.appendOperation(Operation.MaxLength, {
+            length
+        });
         return this;
     }
     
@@ -75,17 +114,30 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     minLength(length) {
+        this.scopeValidation();
+        
         // Append operation
-        this.scope.appendOperation("minLength");
+        this.scope.appendOperation(Operation.MinLength, {
+            length
+        });
+        return this;
+    }
+    
+    /**
+     * Length range
+     * 
+     * @param {number} min Minimum length
+     * @param {number} max Maximum length 
+     * @returns {Validator}
+     */
+    lengthRange(min, max) {
+        this.scopeValidation();
         
-        if(this.data.length < length) {
-            // Insert new failed checkpoint
-            this.appendFailedCheckpoint(
-                "minLength",
-                `The field ${this.fieldName} can't have less than ${length} characters.`
-            );
-        }
-        
+        // Append operation
+        this.scope.appendOperation(Operation.LengthRange, {
+            min,
+            max
+        });
         return this;
     }
     
@@ -95,14 +147,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isEmail() {
-        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.data))) {
-            // Insert new failed checkpoint
-            this.appendFailedCheckpoint(
-                "isEmail",
-                `The field ${this.fieldName} is not an E-Mail.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsEmail);
         return this;
     }
     
@@ -114,13 +161,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isNum() {
-        if(!(typeof(this.data) === typeof(0))) {
-            this.appendFailedCheckpoint(
-                "isNum",
-                `The field ${this.fieldName} is not a number.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsNum);
         return this;
     }
     
@@ -133,13 +176,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     numRange(min, max) {
-        if(this.data < min || this.data > max) {
-            this.appendFailedCheckpoint(
-                "numRange",
-                `The field ${this.fieldName} is not in the number range ${min} to ${max}.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.NumRange, {min, max});
         return this;
     }
     
@@ -150,13 +189,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isStr() {
-        if(!(typeof(this.data) === typeof(""))) {
-            this.appendFailedCheckpoint(
-                "isStr",
-                `The field ${this.fieldName} is not a string.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsStr);
         return this;
     }
     
@@ -167,13 +202,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isBool() {
-        if(!(typeof(this.data) === typeof(true))) {
-            this.appendFailedCheckpoint(
-                "isBool",
-                `The field ${this.fieldName} is not a boolean.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsBool);
         return this;
     }
     
@@ -184,13 +215,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isArray() {
-        if(!(typeof(this.data) === typeof([]))) {
-            this.appendFailedCheckpoint(
-                "isArr",
-                `The field ${this.fieldName} is not an array.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsArray);
         return this;
     }
     
@@ -201,85 +228,9 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isObject() {
-        if(!(typeof(this.data) === typeof({}))) {
-            this.appendFailedCheckpoint(
-                "isObject",
-                `The field ${this.fieldName} is not an object.`
-            );
-        }
+        this.scopeValidation();
         
+        this.scope.appendOperation(Operation.IsObject);
         return this;
-    }
-    
-    // --- Miscellaneous ---
-    
-    /**
-     * Add a failed checkpoint
-     * 
-     * @param {string} checkpointName 
-     * @param {string} message 
-     * @returns {Validator}
-     */
-    appendFailedCheckpoint(checkpointName, message) {
-        this.passed = false;
-        this.lastCheckpoint = checkpointName;
-        this.messages.push(
-            new ValidationResult()
-                .setAsError(
-                    this.fieldName,
-                    message,
-                )
-        );
-        
-        return this;
-    }
-    
-    /**
-     * Override message of the previous check
-     * 
-     * @param {string} msg
-     * @returns {ValidationResult}
-     */
-    overrideMessage(msg) {
-        // Fetch last message and change it.
-        this.fetchLastMessage().message = msg;
-        
-        return this;
-    }
-    
-    /**
-     * Get errors
-     * 
-     * @returns {Array}
-     */
-    getErrors() {
-        // Gather errors
-        let errors = this.messages.map((valRes, _index, _a) => {
-            // Check if it's an error
-            if(valRes.error) {
-                return valRes;
-            }
-        });
-        
-        return errors;
-    }
-    
-    // --- Transform Validator ---
-    /**
-     * Fetch last message
-     * 
-     * @param {boolean} pop Remove it from the list
-     * @returns {ValidationResult}
-     */
-    fetchLastMessage(pop = false) {
-        // If pop, remove it and return
-        if(pop) {
-            return this.messages.pop();
-        }
-        
-        // Fetch last message
-        let lastMessage = this.messages[this.messages.length - 1];
-        
-        return lastMessage;
     }
 }

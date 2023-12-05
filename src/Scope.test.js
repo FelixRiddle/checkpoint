@@ -14,6 +14,8 @@ test("String validation", () => {
     
     // Add operations
     sc.appendOperation(Operation.IsStr);
+    sc.appendOperation(Operation.MinLength, { min: 3 });
+    sc.appendOperation(Operation.MaxLength, { max: 64 });
     sc.appendOperation(
         Operation.LengthRange,
         {

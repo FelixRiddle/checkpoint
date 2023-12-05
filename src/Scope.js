@@ -51,7 +51,7 @@ module.exports = class Scope {
     /**
      * Run every operation in this scope
      * 
-     * @return {Array} Returns an array of messages
+     * @returns {Array} Returns an array of messages
      * The messages are contained in the 'ValidationResult' class.
      */
     runOperations() {
