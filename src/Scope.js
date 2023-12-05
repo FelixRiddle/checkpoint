@@ -17,6 +17,7 @@ module.exports = class Scope {
      * 
      * @param {string} scopeName 
      * @param {FieldData} fieldData Field data
+     * @param {Object} config Configuration data
      */
     constructor(scopeName, fieldData, config = {
         debug: false,
@@ -38,7 +39,7 @@ module.exports = class Scope {
         let fieldData = this.fieldData.clone();
         
         // Create scope
-        let scope = new Scope(name, fieldData);
+        let scope = new Scope(name, fieldData, this.config);
         
         return scope;
     }
@@ -59,16 +60,23 @@ module.exports = class Scope {
      * @returns {Scope} The new scope
      */
     cloneWith(scopeName, fieldName, data) {
+        if(this.config.debug) console.log(`Scope.cloneWith Scope name: ${scopeName}`);
+        // Clone config
+        let config = JSON.parse(JSON.stringify(this.config))
+        
+        if(this.config.debug) console.log(`Create new scope`);
         // Create new scope
         // When using an existing scope, we can't give it the same name
         // For now, an empty string will do
-        let scope = new Scope(scopeName, new FieldData(fieldName, data));
+        let scope = new Scope(scopeName, new FieldData(fieldName, data), config);
         
+        if(this.config.debug) console.log(`Clone operators`);
         // --- Update field data ---
         // Set field data updates operators with the new data
         // So here we just clone the operators
         scope.operations = this.cloneOperators();
         
+        if(this.config.debug) console.log(`Replace operators data`);
         // Replace scope field data
         // It also replaces each operation field data
         let fieldData = new FieldData(fieldName, data);
@@ -86,14 +94,11 @@ module.exports = class Scope {
     cloneOperators() {
         // Check if on debug mode
         // Jest will take you so far
-        if(this.config.debug) {
-            console.log(`Cloning operators.`);
-        }
+        if(this.config.debug) console.log(`Cloning operators.`);
         
         return this.operations.map((op) => {
-            if(this.config.debug) {
-                console.log(`Operator field data: `, op.fieldData);
-            }
+            if(this.config.debug) console.log(`Operator: `, op);
+            if(this.config.debug) console.log(`Operator field data: `, op.fieldData);
             
             return op.clone();
         });
@@ -108,11 +113,15 @@ module.exports = class Scope {
      * @returns {Scope}
      */
     appendOperation(operationId, operationArgs = {}) {
+        if(this.config.debug) console.log(`Scope/Append operation with id ${operationId}`);
+        if(this.config.debug) console.log(`Scope field object: `, this.fieldData);
+        
         // Create operation
         let op = new OperationController(
             operationId,
             this.fieldData,
             operationArgs,
+            { debug: this.config.debug }
         );
         
         // Create a new operation
@@ -128,9 +137,7 @@ module.exports = class Scope {
      * The messages are contained in the 'ValidationResult' class.
      */
     runOperations() {
-        if(this.config.debug) {
-            console.log(`Operations: `, this.operations);
-        }
+        if(this.config.debug) console.log(`Operations: `, this.operations);
         
         let resultMessages = this.operations.filter((op) => {
             if(this.config.debug) console.log(`Operation: `, op);

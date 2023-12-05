@@ -33,6 +33,7 @@ module.exports = class Validator {
      * @returns {Validator} This object
      */
     createScope(scopeName, fieldName, data) {
+        if(this.config.debug) console.log(`Create scope ${scopeName}`);
         // Create new scope
         this.scope = new Scope(scopeName, new FieldData(fieldName, data), { debug: this.config.debug });
         
@@ -134,6 +135,7 @@ module.exports = class Validator {
      * @returns {Validator}
      */
     isNotFalsy() {
+        if(this.config.debug) console.log(`Add operation isNotFalsy`);
         this.scopeValidation();
         
         // Append operation

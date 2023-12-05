@@ -10,9 +10,10 @@ module.exports = class FieldData {
      * @param {string} fieldName Field name
      * @param {*} data Data
      */
-    constructor(fieldName, data) {
+    constructor(fieldName, data, config = { debug: false}) {
         this.fieldName = fieldName;
         this.data = data;
+        this.config = config;
     }
     
     /**
@@ -22,6 +23,10 @@ module.exports = class FieldData {
      */
     clone() {
         let data = JSON.parse(JSON.stringify(this));
-        return new FieldData(data.fieldName, data.data);
+        let newFieldData = new FieldData(data.fieldName, data.data);
+        
+        if(this.config.debug) console.log(`New data: `, newFieldData);
+        
+        return newFieldData;
     }
 };

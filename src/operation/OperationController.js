@@ -21,7 +21,7 @@ module.exports = class OperationController {
      * @param {object} args Operation arguments, like max length, min length, etc.
      * For the args it doesn't matter the names, just the order.
      */
-    constructor(operation, fieldData, args = {}) {
+    constructor(operation, fieldData, args = {}, config = { debug: false }) {
         this.operation = operation;
         this.fieldData = fieldData;
         this.args = args;
@@ -53,6 +53,8 @@ module.exports = class OperationController {
      * @returns {OperationController} A clone of this 'OperationController'.
      */
     clone() {
+        if(this.config.debug) console.log(`Operation controller: `, this);
+        
         // Clone the field
         let newField = this.fieldData.clone();
         
