@@ -6,6 +6,8 @@ Data validation package and other miscellaneous things.
 
 This is an introduction to checkpoint version 1.0.1
 
+########################### FIX ###################################
+
 Create a validator
 
 ```javascript
@@ -13,8 +15,6 @@ import Validator from "validator";
 
 // Create validator
 let val = new Validator(
-    "some_email@gugl",
-    "email",
 );
 ```
 

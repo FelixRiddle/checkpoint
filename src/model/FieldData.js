@@ -14,4 +14,14 @@ module.exports = class FieldData {
         this.fieldName = fieldName;
         this.data = data;
     }
+    
+    /**
+     * Perform a deep clone of this object
+     * 
+     * @returns {FieldData} This object
+     */
+    clone() {
+        let data = JSON.parse(JSON.stringify(this));
+        return new FieldData(data.fieldName, data.data);
+    }
 };

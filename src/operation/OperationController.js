@@ -28,6 +28,42 @@ module.exports = class OperationController {
     }
     
     /**
+     * Execute an operation and get the message
+     * 
+     * Note the result may be undefined if the message for the operation result doesn't exist.
+     * 
+     * For now the messages that don't exist are:
+     * - Every success message
+     * 
+     * @returns {*} string or undefined 
+     */
+    executeAndGetMessage() {
+        let opResult = this.execute();
+        
+        // Execute operation
+        if(!opResult) {
+            let failureMessage = this.failureMessage();
+            return failureMessage; 
+        }
+    }
+    
+    /**
+     * Perform a deep clone
+     * 
+     * @returns {OperationController} A clone of this 'OperationController'.
+     */
+    clone() {
+        // Clone the field
+        let newField = this.fieldData.clone();
+        
+        // Clone the rest
+        let operation = JSON.parse(JSON.stringify(this.operation));
+        let args = JSON.parse(JSON.stringify(this.args));
+        
+        return new OperationController(operation, newField, args);
+    }
+    
+    /**
      * Execute a validation operation
      * 
      * Returns the result of it.
@@ -154,25 +190,5 @@ module.exports = class OperationController {
         };
         
         return result;
-    }
-    
-    /**
-     * Execute an operation and get the message
-     * 
-     * Note the result may be undefined if the message for the operation result doesn't exist.
-     * 
-     * For now the messages that don't exist are:
-     * - Every success message
-     * 
-     * @returns {*} string or undefined 
-     */
-    executeAndGetMessage() {
-        let opResult = this.execute();
-        
-        // Execute operation
-        if(!opResult) {
-            let failureMessage = this.failureMessage();
-            return failureMessage; 
-        }
     }
 };

@@ -1,5 +1,6 @@
 const Scope = require("./Scope");
 const ValidationResult = require("./ValidationResult");
+const FieldData = require("./model/FieldData");
 const Operation = require("./model/Operation");
 
 /**
@@ -8,8 +9,6 @@ const Operation = require("./model/Operation");
  * @author Felix Riddle
  */
 module.exports = class Validator {
-    // If every test has passed
-    passed = true;
     // Scopes
     scopes = [];
     
@@ -17,7 +16,11 @@ module.exports = class Validator {
      * Create object with the given data.
      *
      */
-    constructor(config = {}) { }
+    constructor(config = {
+        debug: false,
+    }) {
+        this.config = config;
+    }
     
     /**
      * Create a new scope.
@@ -31,12 +34,56 @@ module.exports = class Validator {
      */
     createScope(scopeName, fieldName, data) {
         // Create new scope
-        this.scope = new Scope(scopeName, fieldName, data);
+        this.scope = new Scope(scopeName, new FieldData(fieldName, data), { debug: this.config.debug });
         
         // Append scope to the list
         this.scopes.push(this.scope);
         
         return this;
+    }
+    
+    /**
+     * Use an existing scope
+     * 
+     * @param {string} scopeName Scope name 
+     * @param {string} fieldName Field name
+     * @param {*} data Data
+     * @returns {Validator} This object
+     */
+    useScope(scopeName, fieldName, data) {
+        // Find the scope
+        let usingScope = this.findScope(scopeName);
+        if(this.config.debug) console.log(`Found scope: `, usingScope);
+        
+        // Deep clone of the scope
+        // Clone the scope and set it an empty name,
+        // because we don't want two scopes with the same name
+        // That's a temporal fix btw, I don't know how to improve it for now
+        let scope = usingScope.cloneWith("", fieldName, data);
+        if(this.config.debug) console.log(`Deep cloned scope and with its data replaced: `, scope);
+        
+        // Append scope to the list
+        this.scopes.push(scope);
+        
+        // Set as current scope
+        this.scope = scope;
+        
+        return this;
+    }
+    
+    /**
+     * Find scope by name
+     * 
+     * @param {string} scopeName The scope name
+     * @returns {Scope}
+     */
+    findScope(scopeName) {
+        return this.scopes.find((scope) => {
+            // Check if names match and return
+            if(scope.name === scopeName) {
+                return scope;
+            }
+        });
     }
     
     /**
@@ -58,8 +105,11 @@ module.exports = class Validator {
     validate() {
         let results = [];
         
+        if(this.config.debug) console.log(`Validating data`);
+        
         // Run operations
         this.scopes.map((scope, _index, _a) => {
+            if(this.config.debug) console.log(`Scope: `, scope.name);
             let result = scope.runOperations();
             
             results = results.concat(result);
