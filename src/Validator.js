@@ -60,6 +60,10 @@ module.exports = class Validator {
         let usingScope = this.findScope(scopeName);
         if(this.config.debug) console.log(`Found scope: `, usingScope);
         
+        if(!usingScope) {
+            throw Error(`Scope with name '${scopeName}' couldn't be found`);
+        }
+        
         // Deep clone of the scope
         // Clone the scope and set it an empty name,
         // because we don't want two scopes with the same name
@@ -212,7 +216,6 @@ module.exports = class Validator {
     
     // - Data types -
     /**
-     * 
      * Check if the data given is a number
      * 
      * @returns {Validator}
@@ -221,6 +224,30 @@ module.exports = class Validator {
         this.scopeValidation();
         
         this.scope.appendOperation(Operation.IsNum);
+        return this;
+    }
+    
+    /**
+     * Check if the data given is an integer
+     * 
+     * @returns {Validator}
+     */
+    isInt() {
+        this.scopeValidation();
+        
+        this.scope.appendOperation(Operation.IsInt);
+        return this;
+    }
+    
+    /**
+     * Check if the data given is a float
+     * 
+     * @returns {Validator}
+     */
+    isFloat() {
+        this.scopeValidation();
+        
+        this.scope.appendOperation(Operation.IsFloat);
         return this;
     }
     

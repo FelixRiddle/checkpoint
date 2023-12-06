@@ -64,6 +64,7 @@ for(let res in result) {
 
 # Todo
 
+- [ ] Form fetch all parses what is clearly a number or float
 - [x] Data validation
 - [ ] Object validation
 - [x] Scopes

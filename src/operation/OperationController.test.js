@@ -40,6 +40,11 @@ let resources = new FieldData(
         wood: 4324,
     }
 );
+// Latitude
+let latitude = new FieldData(
+    "latitude",
+    -50.324242
+);
 
 test("Data is not falsy", () => {
     // Operation controller
@@ -156,6 +161,26 @@ test("Is object", () => {
     let opCtrl = new OperationController(
         Operation.IsObject,
         resources,
+    );
+    
+    expect(opCtrl.execute()).toBe(true);
+});
+
+test("Is int", () => {
+    // Operation controller
+    let opCtrl = new OperationController(
+        Operation.IsInt,
+        age,
+    );
+    
+    expect(opCtrl.execute()).toBe(true);
+});
+
+test("Is float", () => {
+    // Operation controller
+    let opCtrl = new OperationController(
+        Operation.IsInt,
+        latitude,
     );
     
     expect(opCtrl.execute()).toBe(true);

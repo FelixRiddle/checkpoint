@@ -64,6 +64,24 @@ module.exports = class FailureMessages {
     }
     
     /**
+     * Is integer
+     * 
+     * @returns {string}
+     */
+    isInt() {
+        return `The field ${this.fieldData.fieldName} is not an integer.`;
+    }
+    
+    /**
+     * Is float
+     * 
+     * @returns {string}
+     */
+    isFloat() {
+        return `The field ${this.fieldData.fieldName} is not a float.`;
+    }
+    
+    /**
     * 
     * Number range
     * 

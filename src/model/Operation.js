@@ -16,6 +16,8 @@ module.exports = class Operation {
     static IsObject = 9;
     // Others that were made after the previous ones
     static LengthRange = 10;
+    static IsInt = 11;
+    static IsFloat = 12;
     
     /**
      * Get an operation by name

@@ -122,6 +122,14 @@ module.exports = class OperationController {
                 result = operationLib.lengthRange(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
+            case Operation.IsInt: {
+                result = operationLib.isInt(this.fieldData.data, ...Object.values(this.args));
+                break;
+            }
+            case Operation.IsFloat: {
+                result = operationLib.isFloat(this.fieldData.data, ...Object.values(this.args));
+                break;
+            }
             default: {
                 throw Error("The given operation id does not exist.");
             }
@@ -185,6 +193,14 @@ module.exports = class OperationController {
             }
             case Operation.LengthRange: {
                 result = failMsg.lengthRange(...Object.values(this.args));
+                break;
+            }
+            case Operation.IsInt: {
+                result = failMsg.isInt(...Object.values(this.args));
+                break;
+            }
+            case Operation.IsFloat: {
+                result = failMsg.isFloat(...Object.values(this.args));
                 break;
             }
             default: {

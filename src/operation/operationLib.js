@@ -59,11 +59,33 @@ function isEmail(data) {
  * 
  * Check if the data given is a number
  * 
+ * Regardless of whether it's int or float
+ * 
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
 function isNum(data) {
+    return (typeof(data) === typeof(0)) || (typeof(data) === typeof(0.0));
+}
+
+/**
+ * Check if the given type is integer
+ * 
+ * @param {*} data Data object
+ * @returns {boolean}
+ */
+function isInt(data) {
     return typeof(data) === typeof(0);
+}
+
+/**
+ * Check if the given type is float
+ * 
+ * @param {*} data Data object
+ * @returns {boolean}
+ */
+function isFloat(data) {
+    return typeof(data) === typeof(0.0);
 }
 
 /**
@@ -132,6 +154,8 @@ module.exports = {
     lengthRange,
     isEmail,
     isNum,
+    isInt,
+    isFloat,
     numRange,
     isStr,
     isBool,

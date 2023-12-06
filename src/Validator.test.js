@@ -143,7 +143,59 @@ test("Wrong email returns error messages", () => {
     
     // 2 for wrong emails, 2 for length range
     test("There are exactly 2 errors", () => {
-        // If validations passed, the resulting messages are 0
         expect(result.length === 2).toBe(true);
+    });
+})();
+
+
+(() => {
+    // Data heavy one
+    let resultObject = {
+        "title": "asdfasdf",
+        "description": "slkdajfksfjsdalkfsadjflkjasdfl",
+        "rooms": 5,
+        "parking": 4,
+        "bathrooms": 4,
+        "street": "3801 S Broadway",
+        "latitude": 39.647467988379,
+        "longitude": -104.988104982762,
+        "priceId": 2,
+        "categoryId": 3
+    };
+    
+    // Frontend validation
+    let idBasedScope = "id_based";
+    let coordinateScope = "coordinate_scope";
+    let val = new Validator()
+        // Title scope    
+        .createScope("title", "title", resultObject.title)
+            .isNotFalsy()
+            .lengthRange(3, 128)
+        // Description scope
+        .createScope("description", "description", resultObject.description)
+            .isNotFalsy()
+            .lengthRange(10, 512)
+        // Categories and price
+        .createScope(idBasedScope, "categoryId", resultObject.categoryId)
+            .isNotFalsy()
+            .isInt()
+            .numRange(0, 20)
+        // Others
+        .useScope(idBasedScope, "priceId", resultObject.priceId)
+        .useScope(idBasedScope, "rooms", resultObject.rooms)
+        .useScope(idBasedScope, "parking", resultObject.parking)
+        .useScope(idBasedScope, "bathrooms", resultObject.bathrooms)
+        .createScope(coordinateScope, "latitude", resultObject.latitude)
+            .isNotFalsy()
+            .isFloat()
+        .useScope(coordinateScope, "longitude", resultObject.longitude)
+        .createScope("street", "street", resultObject.street)
+            .isNotFalsy();
+    
+    // Perform validations
+    let result = val.validate();
+    
+    test("Property data passes", () => {
+        expect(result.length === 0).toBe(true);
     });
 })();

@@ -1,14 +1,16 @@
 {
   "name": "felixriddle.checkpoint",
-  "version": "2.0.0",
-  "description": "A data validator package",
+  "version": "2.0.1",
+  "description": "A data validation package",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "cmd": "node src/cmd/index.js",
     "test": "jest"
   },
-  "keywords": [],
+  "keywords": [
+    "Validation", "Scopes"
+  ],
   "author": "Felix Riddle",
   "license": "ISC",
   "devDependencies": {
