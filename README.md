@@ -2,43 +2,63 @@
 
 Data validation package and other miscellaneous things.
 
-## Introduction
+# Introduction
 
-This is an introduction to checkpoint version 1.0.1
-
-########################### FIX ###################################
+Last update: 2.0.0
+This is an introduction to checkpoint
 
 Create a validator
 
 ```javascript
 import Validator from "validator";
 
-// Create validator
-let val = new Validator(
-);
+// Create a validator and multiple scopes
+let val = new Validator()
+    .createScope("email", "email", "felix@email.com")
+    .isNotFalsy()
+    .isEmail()
+    .lengthRange(5, 64)
+    .isStr()
+    // Use scope
+    .useScope("email", "friend_email", "joe@email.com")
+    // Create new scope
+    // These ones pass
+    .createScope("username", "username", "my_cool_username_65")
+    .isNotFalsy()
+    .lengthRange(5, 64)
+    .isStr()
+    // Phone scope
+    .createScope("phone", "phone_number", 6756829123)
+    .isNotFalsy()
+    .isNum()
+    // Use phone scope again
+    // And fail both tests
+    .useScope("phone", "alt_phone", "");
+
 ```
 
-Validate an E-Mail
+Perform validation and check if passed
 
 ```javascript
-// Validate that it's an email
-let emailVal = new Validator(
-        "some_email@gugl",
-        "email",
-    )
-    .isNotFalsy() // The data is not a falsy value
-    .isEmail() // Check if email is correct
-    .maxLength(64) // Check its length doesn't exceed 64 characters
-    .minLength(5); // Length can't be less than 5 characters
+// Perform validations
+let result = val.validate();
+
+// The result should have an array of 'ValidationResult' objects
+if(result.length > 0) {
+    console.log(`Not all validations passed`);
+}
 ```
 
-Check if tests passed
+Print every result message
 
 ```javascript
-if(emailVal.passed) {
-    console.log(`Yay! Tests passed!`);
-} else {
-    console.log(`Please try again!`);
+// Perform validations
+let result = val.validate();
+
+// Print result messages
+for(let res in result) {
+    console.log(`Field: ${}`, res.field);
+    console.log(`Message: ${}\n`, res.message);
 }
 ```
 
@@ -46,4 +66,4 @@ if(emailVal.passed) {
 
 - [x] Data validation
 - [ ] Object validation
-- [ ] Scopes
+- [x] Scopes
