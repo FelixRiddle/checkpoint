@@ -113,3 +113,37 @@ test("Wrong email returns error messages", () => {
         expect(result.length).toBe(4);
     });
 })();
+
+(() => {
+    // Testing multiple scopes
+    let val = new Validator({ debug: false })
+        .createScope("email", "email", "felix@email.com")
+        .isNotFalsy()
+        .isEmail()
+        .lengthRange(5, 64)
+        .isStr()
+        // Use scope
+        .useScope("email", "friend_email", "joe@email.com")
+        // Create new scope
+        // These ones pass
+        .createScope("username", "username", "my_cool_username_65")
+        .isNotFalsy()
+        .lengthRange(5, 64)
+        .isStr()
+        // Phone scope
+        .createScope("phone", "phone_number", 6756829123)
+        .isNotFalsy()
+        .isNum()
+        // Use phone scope again
+        // And fail both tests
+        .useScope("phone", "alt_phone", "");
+    
+    // Perform validations
+    let result = val.validate();
+    
+    // 2 for wrong emails, 2 for length range
+    test("There are exactly 2 errors", () => {
+        // If validations passed, the resulting messages are 0
+        expect(result.length === 2).toBe(true);
+    });
+})();
