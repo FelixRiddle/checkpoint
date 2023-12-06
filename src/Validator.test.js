@@ -1,3 +1,4 @@
+const ValidationResult = require("./ValidationResult");
 const Validator = require("./Validator");
 
 test("Email scope", () => {
@@ -62,5 +63,53 @@ test("Wrong email returns error messages", () => {
     test("New scope doesn't have previous data", () => {
         // Validate that both scopes have different values
         expect(firstScope.fieldData.data !== secondScope.fieldData.data).toBe(true);
+    });
+})();
+
+(() => {
+    // Now we run a test in  which another field uses the same scope
+    let val = new Validator()
+        .createScope("email", "email", "felix@email.com")
+        .isNotFalsy()
+        .isEmail()
+        .lengthRange(5, 64)
+        .useScope("email", "friend_email", "joe@email.com");
+    
+    // Perform validations
+    let result = val.validate();
+    
+    test("Use same scope on another email", () => {
+        // If validations passed, the resulting messages are 0
+        expect(result.length).toBe(0);
+    });
+})();
+
+(() => {
+    // Now we run a test in  which another field uses the same scope
+    let val = new Validator({ debug: false })
+        .createScope("email", "email", "felix@.com")
+        .isNotFalsy()
+        .isEmail()
+        .lengthRange(20, 64)
+        .useScope("email", "friend_email", "joe@email");
+    
+    // Perform validations
+    let result = val.validate();
+    
+    // Prevent an error
+    if(result.length > 0) {
+        let first = result[0];
+        let typesMatch = first instanceof ValidationResult;
+        
+        // Validate it's an exact type
+        test("Type is 'ValidationResult'", () => {
+            expect(typesMatch).toBe(true);
+        });
+    }
+    
+    // 2 for wrong emails, 2 for length range
+    test("Validate that there are exactly 4 errors", () => {
+        // If validations passed, the resulting messages are 0
+        expect(result.length).toBe(4);
     });
 })();

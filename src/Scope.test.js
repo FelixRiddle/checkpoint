@@ -1,4 +1,5 @@
 const Scope = require("./Scope.js");
+const FieldData = require("./model/FieldData.js");
 const Operation = require("./model/Operation");
 
 let fieldName = "username";
@@ -8,8 +9,7 @@ test("String validation", () => {
     // Create scope
     let sc = new Scope(
         "username",
-        fieldName,
-        fieldValue
+        new FieldData(fieldName, fieldValue),
     );
     
     // Add operations

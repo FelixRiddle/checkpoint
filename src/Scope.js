@@ -137,22 +137,27 @@ module.exports = class Scope {
      * The messages are contained in the 'ValidationResult' class.
      */
     runOperations() {
-        if(this.config.debug) console.log(`Operations: `, this.operations);
+        if(this.config.debug) console.log(`Operations: `, this.operations.length);
         
-        let resultMessages = this.operations.filter((op) => {
+        let resultMessages = [];
+        
+        this.operations.filter((op) => {
             if(this.config.debug) console.log(`Operation: `, op);
             
             let result = op.executeAndGetMessage();
             if(result) {
+                if(this.config.debug) console.log(`Result message: `, result);
+                
                 // Create validation result
                 let resMsg = new ValidationResult();
                 resMsg.setAsError(this.fieldData.fieldName, result);
+                if(this.config.debug) console.log(`Adding validation result: `, resMsg);
                 
-                return resMsg;
+                resultMessages.push(resMsg);
             }
         });
         
-        if(this.config.debug) console.log(`Result messages: `, resultMessages);
+        if(this.config.debug) console.log(`Result messages: `, resultMessages.length);
         
         return resultMessages;
     }

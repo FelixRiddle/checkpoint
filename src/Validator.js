@@ -116,6 +116,7 @@ module.exports = class Validator {
         this.scopes.map((scope, _index, _a) => {
             if(this.config.debug) console.log(`Scope: `, scope.name);
             let result = scope.runOperations();
+            if(this.config.debug) console.log(`Operations result: `, result);
             
             results = results.concat(result);
         });
