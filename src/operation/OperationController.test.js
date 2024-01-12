@@ -102,6 +102,7 @@ test("Is email", () => {
     expect(opCtrl.execute()).toBe(true);
 });
 
+// --- Num range ---
 test("Num range", () => {
     // Operation controller
     let opCtrl = new OperationController(
@@ -112,9 +113,43 @@ test("Num range", () => {
             max: 120,
         }
     );
+    const result = opCtrl.execute();
     
-    expect(opCtrl.execute()).toBe(true);
+    expect(result).toBe(true);
 });
+
+// I can't believe I used an '||' for a num range 😂😂😂
+// This will test that if I use an or again it will fail
+test("Num range 2(fail above maximum)", () => {
+    // Operation controller
+    let opCtrl = new OperationController(
+        Operation.NumRange,
+        10,
+        {
+            min: 0,
+            max: 9,
+        }
+    );
+    const result = opCtrl.execute();
+    
+    expect(!result).toBe(true);
+});
+
+test("Num range 3(fail below minimum)", () => {
+    // Operation controller
+    let opCtrl = new OperationController(
+        Operation.NumRange,
+        -1,
+        {
+            min: 0,
+            max: 9,
+        }
+    );
+    const result = opCtrl.execute();
+    
+    expect(!result).toBe(true);
+});
+// -----------------
 
 test("Is num", () => {
     // Operation controller

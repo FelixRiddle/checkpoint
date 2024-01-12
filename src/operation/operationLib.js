@@ -100,7 +100,7 @@ function isFloat(data) {
  * @returns {boolean}
  */
 function numRange(data, min, max) {
-    return (data >= min || data <= max);
+    return (data >= min && data <= max);
 }
 
 /**
