@@ -41,7 +41,7 @@ let resources = new FieldData(
     }
 );
 // Latitude
-let latitude = new FieldData(
+const latitude = new FieldData(
     "latitude",
     -50.324242
 );
@@ -211,12 +211,31 @@ test("Is int", () => {
     expect(opCtrl.execute()).toBe(true);
 });
 
+// --- Float tests ---
 test("Is float", () => {
     // Operation controller
     let opCtrl = new OperationController(
-        Operation.IsInt,
+        Operation.IsFloat,
         latitude,
     );
+    const result = opCtrl.execute();
     
-    expect(opCtrl.execute()).toBe(true);
+    expect(result).toBe(true);
 });
+
+const notAFloatLongitude = new FieldData(
+    "longitude",
+    23
+);
+test('Not a float', () => {
+    // Operation controller
+    let opCtrl = new OperationController(
+        Operation.IsFloat,
+        notAFloatLongitude,
+    );
+    const result = opCtrl.execute();
+    
+    expect(!result).toBe(true);
+});
+
+// -------------------

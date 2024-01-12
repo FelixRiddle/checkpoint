@@ -85,7 +85,7 @@ function isInt(data) {
  * @returns {boolean}
  */
 function isFloat(data) {
-    return typeof(data) === typeof(0.0);
+    return !(data % 1 === 0);
 }
 
 /**
