@@ -21,7 +21,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isNotFalsy() {
-        return `The field ${this.fieldData.fieldName} is falsy, that means the data given is not correct.`;
+        return `The field '${this.fieldData.fieldName}' is empty or its data is incorrect.`;
     }
     
     /**
@@ -31,7 +31,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     maxLength(length) {
-        return `The field ${this.fieldData.fieldName} can't exceed ${length} characters.`;
+        return `The field '${this.fieldData.fieldName}' can't exceed ${length} characters.`;
     }
     
     /**
@@ -41,7 +41,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     minLength(length) {
-        return `The field ${this.fieldData.fieldName} can't have less than ${length} characters.`;
+        return `The field '${this.fieldData.fieldName}' can't have less than ${length} characters.`;
     }
     
     /**
@@ -50,7 +50,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isEmail() {
-        return `The field ${this.fieldData.fieldName} is not an E-Mail.`;
+        return `The field '${this.fieldData.fieldName}' is not an E-Mail.`;
     }
     
     // - Data types -
@@ -60,7 +60,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isNum() {
-        return `The field ${this.fieldData.fieldName} is not a number.`;
+        return `The field '${this.fieldData.fieldName}' is not a number.`;
     }
     
     /**
@@ -69,7 +69,7 @@ module.exports = class FailureMessages {
      * @returns {string}
      */
     isInt() {
-        return `The field ${this.fieldData.fieldName} is not an integer.`;
+        return `The field '${this.fieldData.fieldName}' is not an integer.`;
     }
     
     /**
@@ -78,7 +78,7 @@ module.exports = class FailureMessages {
      * @returns {string}
      */
     isFloat() {
-        return `The field ${this.fieldData.fieldName} is not a float.`;
+        return `The field '${this.fieldData.fieldName}' is not a float.`;
     }
     
     /**
@@ -90,7 +90,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     numRange(min, max) {
-        return `The field ${this.fieldData.fieldName} is not in the number range ${min} to ${max}.`;
+        return `The field '${this.fieldData.fieldName}' is not in the number range ${min} to ${max}.`;
     }
     
     /**
@@ -100,7 +100,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isStr() {
-        return `The field ${this.fieldData.fieldName} is not a string.`;
+        return `The field '${this.fieldData.fieldName}' is not a string.`;
     }
     
     /**
@@ -110,7 +110,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isBool() {
-        return `The field ${this.fieldData.fieldName} is not a boolean.`;
+        return `The field '${this.fieldData.fieldName}' is not a boolean.`;
     }
     
     /**
@@ -120,7 +120,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isArray() {
-        return `The field ${this.fieldData.fieldName} is not an array.`;
+        return `The field '${this.fieldData.fieldName}' is not an array.`;
     }
     
     /**
@@ -130,7 +130,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     isObject() {
-        return `The field ${this.fieldData.fieldName} is not an object.`;
+        return `The field '${this.fieldData.fieldName}' is not an object.`;
     }
     
     /**
@@ -141,7 +141,7 @@ module.exports = class FailureMessages {
     * @returns {string}
     */
     lengthRange(minLen, maxLen) {
-        return `The field ${this.fieldData.fieldName} must be in the range of ${minLen} - ${maxLen} characters, current length: ${this.fieldData.data.length}.`;
+        return `The field '${this.fieldData.fieldName}' must be in the range of ${minLen} - ${maxLen} characters, current length: ${this.fieldData.data.length}.`;
     }
 };
 
