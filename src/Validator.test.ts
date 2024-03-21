@@ -68,8 +68,12 @@ export function testScopes() {
     
     // If validations passed, the resulting messages are 0
     testMessage(result.length === 0, "Use same scope on another email");
+    
     // Validate that both scopes have different values
-    testMessage(firstScope.fieldData.data !== secondScope.fieldData.data, "New scope doesn't have previous data");
+    testMessage(
+        firstScope && secondScope && firstScope.fieldData.data !== secondScope.fieldData.data,
+        "New scope doesn't have previous data"
+    );
 }
 
 /**
@@ -207,4 +211,17 @@ export function testFullFledgedFrontendValidation() {
     let result = val.validate();
     
     testMessage(result.length === 0, "Property data passes");
+}
+
+/**
+ * Run all tests
+ */
+export default function runAllValidationTests() {
+    testEmailScope();
+    testWrongEmailReturnsErrorMessages();
+    testScopes();
+    testSameScopeDifferentField();
+    testScopeAssertErrors();
+    testMultipleScopes();
+    testFullFledgedFrontendValidation();
 }

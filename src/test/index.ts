@@ -1,22 +1,10 @@
-import {
-    testEmailScope,
-    testWrongEmailReturnsErrorMessages,
-    testScopes,
-    testSameScopeDifferentField,
-    testScopeAssertErrors,
-    testMultipleScopes,
-    testFullFledgedFrontendValidation,
-} from "../Validator.test";
+import runAllValidationTests from "../Validator.test";
+import runAllOperationControllerTests from "../operation/OperationController.test";
 
 /**
  * Run all tests
  */
 export default function runAllTests() {
-    testEmailScope();
-    testWrongEmailReturnsErrorMessages();
-    testScopes();
-    testSameScopeDifferentField();
-    testScopeAssertErrors();
-    testMultipleScopes();
-    testFullFledgedFrontendValidation();
+    runAllValidationTests();
+    runAllOperationControllerTests();
 }

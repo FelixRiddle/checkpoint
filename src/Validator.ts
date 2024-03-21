@@ -16,7 +16,7 @@ export default class Validator {
     // Scopes
     scopes: Array<Scope> = [];
     config: ValidatorConfig;
-    scope: Scope;
+    scope: Scope | undefined;
     
     /**
      * Create object with the given data.
@@ -118,7 +118,7 @@ export default class Validator {
      * @returns {Array} An array of 'ValidationResult'
      */
     validate(): Array<ValidationResult> {
-        let results = [];
+        let results: any = [];
         
         if(this.config.debug) console.log(`Validating data`);
         
@@ -145,13 +145,22 @@ export default class Validator {
     
     // --- Validation functions ---
     /**
+     * Get 360 no scope
+     */
+    noScopeErrorMessage() {
+        return "You must create a scope prior to validate the data.";
+    }
+    
+    /**
      * If the data given is not falsy it passes the check
      * 
      * @returns {Validator}
      */
     isNotFalsy() {
         if(this.config.debug) console.log(`Add operation isNotFalsy`);
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         // Append operation
         this.scope.appendOperation(Operation.IsNotFalsy);
@@ -165,7 +174,9 @@ export default class Validator {
      * @returns {Validator}
      */
     maxLength(length: number) {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         // Append operation
         this.scope.appendOperation(Operation.MaxLength, {
@@ -181,7 +192,9 @@ export default class Validator {
      * @returns {Validator}
      */
     minLength(length: number) {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         // Append operation
         this.scope.appendOperation(Operation.MinLength, {
@@ -198,7 +211,9 @@ export default class Validator {
      * @returns {Validator}
      */
     lengthRange(min: number, max: number) {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         // Append operation
         this.scope.appendOperation(Operation.LengthRange, {
@@ -214,7 +229,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isEmail() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsEmail);
         return this;
@@ -227,7 +244,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isNum() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsNum);
         return this;
@@ -239,7 +258,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isInt() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsInt);
         return this;
@@ -251,7 +272,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isFloat() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsFloat);
         return this;
@@ -266,7 +289,9 @@ export default class Validator {
      * @returns {Validator}
      */
     numRange(min: number, max: number) {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.NumRange, {min, max});
         return this;
@@ -279,7 +304,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isStr() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsStr);
         return this;
@@ -292,7 +319,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isBool() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsBool);
         return this;
@@ -305,7 +334,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isArray() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsArray);
         return this;
@@ -318,7 +349,9 @@ export default class Validator {
      * @returns {Validator}
      */
     isObject() {
-        this.scopeValidation();
+        if(!this.scope) {
+            throw Error(this.noScopeErrorMessage());
+        }
         
         this.scope.appendOperation(Operation.IsObject);
         return this;

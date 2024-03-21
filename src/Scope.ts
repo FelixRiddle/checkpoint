@@ -1,7 +1,6 @@
-import ValidationResult from "./ValidationResult.js";
-import FieldData from "./model/FieldData.js";
-import OperationController from "./operation/OperationController.js";
-import OPERATION from "./model/Operation";
+import ValidationResult from "./ValidationResult";
+import FieldData from "./model/FieldData";
+import OperationController from "./operation/OperationController";
 
 interface ScopeConfig {
     debug: boolean,
@@ -198,7 +197,7 @@ export default class Scope {
         
         for(const op in this.operations) {
             // operationsId.push(op.operation);
-            operationsId.push(OPERATION[op])
+            operationsId.push(op.operation)
         }
         
         return operationsId;

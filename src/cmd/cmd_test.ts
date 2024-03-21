@@ -47,7 +47,7 @@ function testValidator() {
     if(result.length === 0) passed += 1;
     else failed += 1;
     
-    if(firstScope.fieldData.data !== secondScope.fieldData.data) passed += 1;
+    if(firstScope && secondScope && firstScope.fieldData.data !== secondScope.fieldData.data) passed += 1;
     else failed += 1;
     
     console.log(`Tests passed ${passed}`);

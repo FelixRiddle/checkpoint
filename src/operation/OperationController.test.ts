@@ -2,6 +2,8 @@ import FieldData from "../model/FieldData";
 import Operation from "../model/Operation";
 import OperationController from "./OperationController";
 
+import testMessage from "../test/testMessage";
+
 // Username
 let username = new FieldData(
     "username",
@@ -17,6 +19,8 @@ let email = new FieldData(
     "felix_riddle23@email.com"
 );
 // Age
+// [Anchor]
+// Anchor property, indicates that multiple sources depend on this value
 let age = new FieldData(
     "age",
     23
@@ -46,27 +50,38 @@ const latitude = new FieldData(
     -50.324242
 );
 
-test("Data is not falsy", () => {
+/**
+ * Is not falsy test
+ */
+export function testIsNotFalsy() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNotFalsy,
         username,
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Data is not falsy")
+}
 
-test("Data is falsy", () => {
+/**
+ * Data is falsy
+ */
+export function testDataIsFalsy() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNotFalsy,
         badUsername,
     );
     
-    expect(opCtrl.execute()).toBe(false);
-});
+    const result = opCtrl.execute();
+    testMessage(!result, "Data is falsy");
+}
 
-test("Max length", () => {
+/**
+ * Max length
+ */
+export function testMaxLength() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.MaxLength,
@@ -76,10 +91,14 @@ test("Max length", () => {
         }
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Max length");
+}
 
-test("Min length", () => {
+/**
+ * Min length
+ */
+export function testMinLength() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.MinLength,
@@ -89,21 +108,29 @@ test("Min length", () => {
         }
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Min length");
+}
 
-test("Is email", () => {
+/**
+ * Is email
+ */
+export function testIsEmail() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsEmail,
         email,
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is email");
+}
 
 // --- Num range ---
-test("Num range", () => {
+/**
+ * Num range
+ */
+export function testNumRange() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.NumRange,
@@ -114,128 +141,189 @@ test("Num range", () => {
         }
     );
     const result = opCtrl.execute();
-    
-    expect(result).toBe(true);
-});
+    testMessage(result, "Num range");
+}
 
-// I can't believe I used an '||' for a num range 😂😂😂
-// This will test that if I use an or again it will fail
-test("Num range 2(fail above maximum)", () => {
+/**
+ * Test num range fail above maximum
+ * 
+ * I can't believe I used an '||' for a num range 😂😂😂
+ * This will test that if I use an or again it will fail
+ */
+export function testNumFailAboveMaximum() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.NumRange,
-        10,
+        age,
         {
             min: 0,
             max: 9,
         }
     );
-    const result = opCtrl.execute();
     
-    expect(!result).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(!result, "Num range fail above maximum");
+}
 
-test("Num range 3(fail below minimum)", () => {
+/**
+ * Test num range fail below minimum
+ */
+export function testNumFailBelowMinimum() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.NumRange,
-        -1,
+        age,
         {
-            min: 0,
-            max: 9,
+            min: 30,
+            max: 100,
         }
     );
-    const result = opCtrl.execute();
     
-    expect(!result).toBe(true);
-});
-// -----------------
+    const result = opCtrl.execute();
+    testMessage(!result, "Num range fail below minimum");
+}
 
-test("Is num", () => {
+// Assert types
+/**
+ * Is num
+ */
+export function testIsNum() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsNum,
         age
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is num");
+}
 
-test("Is Str", () => {
+/**
+ * Test is string
+ */
+export function testIsStr() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsStr,
         username,
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is string");
+}
 
-test("Is bool", () => {
+/**
+ * Test is string
+ */
+export function testIsBool() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsBool,
         allowNotifications
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is bool");
+}
 
-test("Is array", () => {
+/**
+ * Is array
+ */
+export function testIsArray() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsArray,
         favoriteColors
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is array");
+}
 
-test("Is object", () => {
+/**
+ * Is object
+ */
+export function testIsObject() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsObject,
         resources,
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is object");
+}
 
-test("Is int", () => {
+/**
+ * Is int
+ */
+export function testIsInt() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsInt,
         age,
     );
     
-    expect(opCtrl.execute()).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is integer");
+}
 
 // --- Float tests ---
-test("Is float", () => {
+/**
+ * Is float
+ */
+export function testIsFloat() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsFloat,
         latitude,
     );
-    const result = opCtrl.execute();
     
-    expect(result).toBe(true);
-});
+    const result = opCtrl.execute();
+    testMessage(result, "Is float");
+}
 
 const notAFloatLongitude = new FieldData(
     "longitude",
     23
 );
-test('Not a float', () => {
+/**
+ * Not a float
+ */
+export function testNotFloat() {
     // Operation controller
     let opCtrl = new OperationController(
         Operation.IsFloat,
         notAFloatLongitude,
     );
-    const result = opCtrl.execute();
     
-    expect(!result).toBe(true);
-});
-
+    const result = opCtrl.execute();
+    testMessage(!result, "Not a float");
+}
 // -------------------
+
+/**
+ * Run all tests
+ * 
+ * It would be unconvenient to import them all wouldn't it?
+ */
+export default function runAllOperationControllerTests() {
+    testIsNotFalsy();
+    testDataIsFalsy();
+    testMaxLength();
+    testMinLength();
+    testIsEmail();
+    testNumRange();
+    testNumFailAboveMaximum();
+    testNumFailBelowMinimum();
+    
+    // Type assertion
+    testIsNum();
+    testIsStr();
+    testIsBool();
+    testIsArray();
+    testIsObject();
+    testIsInt();
+    testIsFloat();
+    testNotFloat();
+}
