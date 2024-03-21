@@ -195,9 +195,13 @@ export default class Scope {
     getOperationsId(): Array<number> {
         let operationsId: Array<number> = [];
         
-        for(const op in this.operations) {
+        const operations: Array<OperationController> = this.operations;
+        // This was wrong before
+        // It had 'op in operations' and it didn't get the type hehe
+        for(const op of operations) {
+            const operation: OperationController = op;
             // operationsId.push(op.operation);
-            operationsId.push(op.operation)
+            operationsId.push(operation.operation)
         }
         
         return operationsId;
@@ -212,7 +216,10 @@ export default class Scope {
      * @returns {*} The scope that was found or undefined
      */
     static findByName(scopes: Array<Scope>, name: string) {
-        for(const scope in scopes) {
+        
+        // This was wrong before
+        // It had 'scope in scopes' and it didn't get the type hehe
+        for(const scope of scopes) {
             // Check if name match and return it
             if(scope.name === name) {
                 return scope;

@@ -2,7 +2,7 @@ import FieldData from "../model/FieldData";
 import Operation from "../model/Operation";
 import OperationController from "./OperationController";
 
-import testMessage from "../test/testMessage";
+import { testMessage } from "../test/testMessage";
 
 // Username
 let username = new FieldData(
