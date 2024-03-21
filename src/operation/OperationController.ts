@@ -19,6 +19,9 @@ export default class OperationController {
     operation: number;
     fieldData: FieldData;
     config: OperationControllerConfig;
+    // I need results 😭😭😭
+    // I'll fix it later
+    args: any;
     
     /**
      * Create operation controller
@@ -84,59 +87,61 @@ export default class OperationController {
     execute() {
         let result = false;
         
+        // 😭😭
+        const values: any[] = Object.values(this.args);
+        
         // Execute operation
         switch(this.operation) {
             case(Operation.IsNotFalsy): {
-                const values = Object.values(this.args);
-                result = OperationFunctions.isNotFalsy(this.fieldData.data, ...values);
+                result = OperationFunctions.isNotFalsy(this.fieldData.data);
                 break;
             }
             case Operation.MaxLength: {
-                result = OperationFunctions.maxLength(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.maxLength(this.fieldData.data, values[0]);
                 break;
             }
             case Operation.MinLength: {
-                result = OperationFunctions.minLength(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.minLength(this.fieldData.data, values[0]);
                 break;
             }
             case Operation.IsEmail: {
-                result = OperationFunctions.isEmail(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isEmail(this.fieldData.data);
                 break;
             }
             case Operation.NumRange: {
-                result = OperationFunctions.numRange(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.numRange(this.fieldData.data, values[0], values[1]);
                 break;
             }
             case Operation.IsNum: {
-                result = OperationFunctions.isNum(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isNum(this.fieldData.data);
                 break;
             }
             case Operation.IsStr: {
-                result = OperationFunctions.isStr(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isStr(this.fieldData.data);
                 break;
             }
             case Operation.IsBool: {
-                result = OperationFunctions.isBool(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isBool(this.fieldData.data);
                 break;
             }
             case Operation.IsArray: {
-                result = OperationFunctions.isArray(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isArray(this.fieldData.data);
                 break;
             }
             case Operation.IsObject: {
-                result = OperationFunctions.isObject(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isObject(this.fieldData.data);
                 break;
             }
             case Operation.LengthRange: {
-                result = OperationFunctions.lengthRange(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.lengthRange(this.fieldData.data, values[0], values[1]);
                 break;
             }
             case Operation.IsInt: {
-                result = OperationFunctions.isInt(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isInt(this.fieldData.data);
                 break;
             }
             case Operation.IsFloat: {
-                result = OperationFunctions.isFloat(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isFloat(this.fieldData.data);
                 break;
             }
             default: {
@@ -158,58 +163,61 @@ export default class OperationController {
         // Create object
         let failMsg = new FailureMessage(this.fieldData);
         
+        // TODO: Fix
+        const values: any[] = Object.values(this.args);
+        
         // Execute operation
         switch(this.operation) {
             case(Operation.IsNotFalsy): {
-                result = failMsg.isNotFalsy(...Object.values(this.args));
+                result = failMsg.isNotFalsy();
                 break;
             }
             case Operation.MaxLength: {
-                result = failMsg.maxLength(...Object.values(this.args));
+                result = failMsg.maxLength(values[0]);
                 break;
             }
             case Operation.MinLength: {
-                result = failMsg.minLength(...Object.values(this.args));
+                result = failMsg.minLength(values[0]);
                 break;
             }
             case Operation.IsEmail: {
-                result = failMsg.isEmail(...Object.values(this.args));
+                result = failMsg.isEmail();
                 break;
             }
             case Operation.NumRange: {
-                result = failMsg.numRange(...Object.values(this.args));
+                result = failMsg.numRange(values[0], values[1]);
                 break;
             }
             case Operation.IsNum: {
-                result = failMsg.isNum(...Object.values(this.args));
+                result = failMsg.isNum();
                 break;
             }
             case Operation.IsStr: {
-                result = failMsg.isStr(...Object.values(this.args));
+                result = failMsg.isStr();
                 break;
             }
             case Operation.IsBool: {
-                result = failMsg.isBool(...Object.values(this.args));
+                result = failMsg.isBool();
                 break;
             }
             case Operation.IsArray: {
-                result = failMsg.isArray(...Object.values(this.args));
+                result = failMsg.isArray();
                 break;
             }
             case Operation.IsObject: {
-                result = failMsg.isObject(...Object.values(this.args));
+                result = failMsg.isObject();
                 break;
             }
             case Operation.LengthRange: {
-                result = failMsg.lengthRange(...Object.values(this.args));
+                result = failMsg.lengthRange(values[0], values[1]);
                 break;
             }
             case Operation.IsInt: {
-                result = failMsg.isInt(...Object.values(this.args));
+                result = failMsg.isInt();
                 break;
             }
             case Operation.IsFloat: {
-                result = failMsg.isFloat(...Object.values(this.args));
+                result = failMsg.isFloat();
                 break;
             }
             default: {

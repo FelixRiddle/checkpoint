@@ -1,6 +1,7 @@
 import ValidationResult from "./ValidationResult.js";
 import FieldData from "./model/FieldData.js";
 import OperationController from "./operation/OperationController.js";
+import OPERATION from "./model/Operation";
 
 interface ScopeConfig {
     debug: boolean,
@@ -14,7 +15,7 @@ interface ScopeConfig {
 export default class Scope {
     name = "";
     // Array of 'OperationController's
-    operations = [];
+    operations: Array<OperationController> = [];
     config: ScopeConfig;
     fieldData: FieldData;
     
@@ -41,7 +42,7 @@ export default class Scope {
      */
     clone() {
         // Clone data
-        let name = JSON.parse(JSON.stringify(this.scopeName));
+        let name = JSON.parse(JSON.stringify(this.name));
         let fieldData = this.fieldData.clone();
         
         // Create scope
@@ -118,7 +119,7 @@ export default class Scope {
      * @param {object} operationArgs Operation args
      * @returns {Scope}
      */
-    appendOperation(operationId, operationArgs = {}) {
+    appendOperation(operationId: number, operationArgs = {}) {
         if(this.config.debug) console.log(`Scope/Append operation with id ${operationId}`);
         if(this.config.debug) console.log(`Scope field object: `, this.fieldData);
         
@@ -145,7 +146,8 @@ export default class Scope {
     runOperations() {
         if(this.config.debug) console.log(`Operations: `, this.operations.length);
         
-        let resultMessages = [];
+        // I'm sorry guys I need results 😭😭😭😭
+        let resultMessages: any[] = [];
         
         this.operations.filter((op) => {
             if(this.config.debug) console.log(`Operation: `, op);
@@ -174,7 +176,7 @@ export default class Scope {
      * @param {FieldData} newData The new field data
      * @returns {this} This object
      */
-    setFieldData(newData) {
+    setFieldData(newData: FieldData) {
         if(this.config.debug) console.log(`Setting field data.`);
         this.fieldData = newData;
         
@@ -191,11 +193,12 @@ export default class Scope {
      * 
      * @returns {Array} Array of operations
      */
-    getOperationsId() {
-        let operationsId = [];
+    getOperationsId(): Array<number> {
+        let operationsId: Array<number> = [];
         
-        for(let op in this.operations) {
-            operationsId.push(op.operation);
+        for(const op in this.operations) {
+            // operationsId.push(op.operation);
+            operationsId.push(OPERATION[op])
         }
         
         return operationsId;
@@ -209,8 +212,8 @@ export default class Scope {
      * @param {string} name Name of the scope to find
      * @returns {*} The scope that was found or undefined
      */
-    static findByName(scopes, name) {
-        for(let scope in scopes) {
+    static findByName(scopes: Array<Scope>, name: string) {
+        for(const scope in scopes) {
             // Check if name match and return it
             if(scope.name === name) {
                 return scope;
