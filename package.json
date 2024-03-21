@@ -1,6 +1,6 @@
 {
   "name": "felixriddle.checkpoint",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "A data validation package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

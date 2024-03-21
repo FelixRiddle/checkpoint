@@ -1,4 +1,6 @@
-import ValidationResult from "./ValidationResult";
+import { Status, StatusWrapper } from "felixriddle.my-types";
+
+// import ValidationResult from "./ValidationResult";
 import Validator from "./Validator";
 import { testMessage } from "./test/testMessage";
 
@@ -81,7 +83,7 @@ export function testScopes() {
  */
 export function testSameScopeDifferentField() {
     // Now we run a test in  which another field uses the same scope
-    let val = new Validator()
+    const val = new Validator()
         .createScope("email", "email", "felix@email.com")
         .isNotFalsy()
         .isEmail()
@@ -89,7 +91,7 @@ export function testSameScopeDifferentField() {
         .useScope("email", "friend_email", "joe@email.com");
     
     // Perform validations
-    let result = val.validate();
+    const result = val.validate();
     
     // If validations passed, the resulting messages are 0
     testMessage(result.length === 0, "Use same scope on another email")
@@ -100,7 +102,7 @@ export function testSameScopeDifferentField() {
  */
 export function testScopeAssertErrors() {
     // Now we run a test in  which another field uses the same scope
-    let val = new Validator({ debug: false })
+    const val = new Validator({ debug: false })
         .createScope("email", "email", "felix@.com")
         .isNotFalsy()
         .isEmail()
@@ -108,16 +110,7 @@ export function testScopeAssertErrors() {
         .useScope("email", "friend_email", "joe@email");
     
     // Perform validations
-    let result = val.validate();
-    
-    // Prevent an error
-    if(result.length > 0) {
-        let first = result[0];
-        let typesMatch = first instanceof ValidationResult;
-        
-        // Validate it's an exact type
-        testMessage(typesMatch, "Type is 'ValidationResult'");
-    }
+    const result = val.validate();
     
     // 2 for wrong emails, 2 for length range
     // If validations passed, the resulting messages are 0
@@ -129,7 +122,7 @@ export function testScopeAssertErrors() {
  */
 export function testMultipleScopes() {
     // Testing multiple scopes
-    let val = new Validator({ debug: false })
+    const val = new Validator({ debug: false })
         .createScope("email", "email", "felix@email.com")
         .isNotFalsy()
         .isEmail()
@@ -152,7 +145,7 @@ export function testMultipleScopes() {
         .useScope("phone", "alt_phone", "");
     
     // Perform validations
-    let result = val.validate();
+    const result = val.validate();
     
     // 2 for wrong emails, 2 for length range
     testMessage(result.length === 2, "There are exactly 2 errors");

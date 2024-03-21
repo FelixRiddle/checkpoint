@@ -1,5 +1,5 @@
 // Checkpoint package
-import ValidationResult from "./ValidationResult";
+// import ValidationResult from "./ValidationResult";
 import formFetchAllValues from "./formFetchAllValues";
 import Validator from "./Validator";
 
@@ -19,6 +19,6 @@ export {
     Operation,
     OperationController,
     operationLib,
-    ValidationResult,
+    // ValidationResult,
     Validator,
 }

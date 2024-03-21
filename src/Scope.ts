@@ -1,6 +1,7 @@
-import ValidationResult from "./ValidationResult";
+// import ValidationResult from "./ValidationResult";
 import FieldData from "./model/FieldData";
 import OperationController from "./operation/OperationController";
+import { FieldType, StatusWrapper } from "felixriddle.my-types";
 
 interface ScopeConfig {
     debug: boolean,
@@ -156,8 +157,12 @@ export default class Scope {
                 if(this.config.debug) console.log(`Result message: `, result);
                 
                 // Create validation result
-                let resMsg = new ValidationResult();
-                resMsg.setAsError(this.fieldData.fieldName, result);
+                // let resMsg = new Status();
+                // resMsg.setAsError(this.fieldData.fieldName, result);
+                // const resMsg = StatusWrapper.newError(this.fieldData.fieldName as FieldType, result);
+                
+                
+                const resMsg = StatusWrapper.newError(this.fieldData.fieldName as FieldType, result);
                 if(this.config.debug) console.log(`Adding validation result: `, resMsg);
                 
                 resultMessages.push(resMsg);

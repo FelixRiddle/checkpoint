@@ -1,7 +1,8 @@
 import Scope from "./Scope";
-import ValidationResult from "./ValidationResult";
+// import ValidationResult from "./ValidationResult";
 import FieldData from "./model/FieldData";
 import Operation from "./model/Operation";
+import { StatusWrapper } from "felixriddle.my-types";
 
 export interface ValidatorConfig {
     debug: boolean,
@@ -114,10 +115,8 @@ export default class Validator {
      * Validate
      * 
      * Run operations, and return its result messages
-     * 
-     * @returns {Array} An array of 'ValidationResult'
      */
-    validate(): Array<ValidationResult> {
+    validate(): Array<StatusWrapper> {
         let results: any = [];
         
         if(this.config.debug) console.log(`Validating data`);
@@ -136,10 +135,8 @@ export default class Validator {
     
     /**
      * Alias for validate
-     * 
-     * @returns {Array} An array of 'ValidationResult'
      */
-    run() {
+    run(): Array<StatusWrapper> {
         return this.validate();
     }
     
