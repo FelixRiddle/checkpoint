@@ -4,7 +4,6 @@
 import { ArgumentParser } from "argparse";
 
 import message from "./message";
-import Scope from "../Scope";
 
 import test from "./cmd_test";
 

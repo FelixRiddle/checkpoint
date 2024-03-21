@@ -1,13 +1,17 @@
-import { Namespace } from "argparse";
+// import { Namespace } from "argparse";
 import Validator from "../Validator";
+import runAllTests from "../test/index";
 
 /**
  * Main function 
  * 
  * @param {Namespace} args Argument list
  */
-module.exports = function main(args) {
-    testValidator();
+export default function main(args: any) {
+    
+    runAllTests();
+    
+    // testValidator();
 }
 
 /**

@@ -1,11 +1,16 @@
-const Scope = require("./Scope.js");
-const FieldData = require("./model/FieldData.js");
-const Operation = require("./model/Operation");
+import Scope from "./Scope";
+import FieldData from "./model/FieldData";
+import Operation from "./model/Operation";
 
-let fieldName = "username";
-let fieldValue = "FelixRiddle23";
+import { testMessage } from "./test/testMessage";
 
-test("String validation", () => {
+/**
+ * Test string validation
+ */
+export function testStringValidation() {
+    const fieldName = "username";
+    const fieldValue = "FelixRiddle23";
+    
     // Create scope
     let sc = new Scope(
         "username",
@@ -23,8 +28,7 @@ test("String validation", () => {
             max: 64,
         }
     );
-    let opRes = sc.runOperations();
+    const opRes = sc.runOperations();
     
-    expect(opRes.length)
-        .toBe(0);
-});
+    testMessage(opRes.length === 0, "String validation");
+}

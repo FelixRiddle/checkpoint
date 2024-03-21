@@ -117,13 +117,13 @@ export default class Validator {
      * 
      * @returns {Array} An array of 'ValidationResult'
      */
-    validate() {
+    validate(): Array<ValidationResult> {
         let results = [];
         
         if(this.config.debug) console.log(`Validating data`);
         
         // Run operations
-        this.scopes.map((scope, _index, _a) => {
+        this.scopes.map((scope: Scope, _index, _a) => {
             if(this.config.debug) console.log(`Scope: `, scope.name);
             let result = scope.runOperations();
             if(this.config.debug) console.log(`Operations result: `, result);

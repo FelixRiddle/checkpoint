@@ -65,7 +65,7 @@ export default class Scope {
      * @param {*} data Data
      * @returns {Scope} The new scope
      */
-    cloneWith(scopeName, fieldName, data) {
+    cloneWith(scopeName: string, fieldName: string, data: any) {
         if(this.config.debug) console.log(`Scope.cloneWith Scope name: ${scopeName}`);
         // Clone config
         let config = JSON.parse(JSON.stringify(this.config))

@@ -33,4 +33,18 @@ const OPERATION: OperationType = {
     IsFloat: 12,
 }
 
+// This was here before
+// I removed it because you can just index it
+// But when I saw it being called from other parts I got like wtf is this
+// So I'll leave it here
+// /**
+//  * Get an operation by name
+//  * 
+//  * @param {string} name Operation name
+//  * @returns {number} Id of the operation in the enum
+//  */
+// static getByName(name) {
+//     return this[name];
+// }
+
 export default OPERATION;
