@@ -1,17 +1,19 @@
-const FieldData = require("../model/FieldData");
+import FieldData from "../model/FieldData";
 
 /**
  * Failure messages for validation operations
  * 
  * Made into a class so that the functions have less parameters.
  */
-module.exports = class FailureMessages {
+export default class FailureMessages {
+    fieldData: FieldData;
+    
     /**
      * Create object with the field name
      * 
      * @param {FieldData} fieldData Field data
      */
-    constructor(fieldData) {
+    constructor(fieldData: FieldData) {
         this.fieldData = fieldData;
     }
     
@@ -30,7 +32,7 @@ module.exports = class FailureMessages {
     * @param {number} length Maximum length
     * @returns {string}
     */
-    maxLength(length) {
+    maxLength(length: number) {
         return `The field '${this.fieldData.fieldName}' can't exceed ${length} characters.`;
     }
     
@@ -40,7 +42,7 @@ module.exports = class FailureMessages {
     * @param {number} length Minimum length
     * @returns {string}
     */
-    minLength(length) {
+    minLength(length: number) {
         return `The field '${this.fieldData.fieldName}' can't have less than ${length} characters.`;
     }
     
@@ -89,7 +91,7 @@ module.exports = class FailureMessages {
     * @param {number} max Range end
     * @returns {string}
     */
-    numRange(min, max) {
+    numRange(min: number, max: number) {
         return `The field '${this.fieldData.fieldName}' is not in the number range ${min} to ${max}.`;
     }
     
@@ -140,8 +142,8 @@ module.exports = class FailureMessages {
     * @param {number} maxLen Maximum length
     * @returns {string}
     */
-    lengthRange(minLen, maxLen) {
+    lengthRange(minLen: number, maxLen: number) {
         return `The field '${this.fieldData.fieldName}' must be in the range of ${minLen} - ${maxLen} characters, current length: ${this.fieldData.data.length}.`;
     }
-};
+}
 

@@ -1,16 +1,22 @@
-const Scope = require("./Scope");
-const ValidationResult = require("./ValidationResult");
-const FieldData = require("./model/FieldData");
-const Operation = require("./model/Operation");
+import Scope from "./Scope";
+import ValidationResult from "./ValidationResult";
+import FieldData from "./model/FieldData";
+import Operation from "./model/Operation";
+
+export interface ValidatorConfig {
+    debug: boolean,
+}
 
 /**
  * Validator object
  * 
  * @author Felix Riddle
  */
-module.exports = class Validator {
+export default class Validator {
     // Scopes
-    scopes = [];
+    scopes: Array<Scope> = [];
+    config: ValidatorConfig;
+    scope: Scope;
     
     /**
      * Create object with the given data.
@@ -32,7 +38,7 @@ module.exports = class Validator {
      * @param {string} scopeName Scope name
      * @returns {Validator} This object
      */
-    createScope(scopeName, fieldName, data) {
+    createScope(scopeName: string, fieldName: string, data: any) {
         if(this.config.debug) console.log(`Create scope ${scopeName}`);
         
         let fieldData = new FieldData(fieldName, data);
@@ -55,7 +61,7 @@ module.exports = class Validator {
      * @param {*} data Data
      * @returns {Validator} This object
      */
-    useScope(scopeName, fieldName, data) {
+    useScope(scopeName: string, fieldName: string, data: any) {
         // Find the scope
         let usingScope = this.findScope(scopeName);
         if(this.config.debug) console.log(`Found scope: `, usingScope);
@@ -86,7 +92,7 @@ module.exports = class Validator {
      * @param {string} scopeName The scope name
      * @returns {Scope}
      */
-    findScope(scopeName) {
+    findScope(scopeName: string) {
         return this.scopes.find((scope) => {
             // Check if names match and return
             if(scope.name === scopeName) {
@@ -158,7 +164,7 @@ module.exports = class Validator {
      * @param {Number}
      * @returns {Validator}
      */
-    maxLength(length) {
+    maxLength(length: number) {
         this.scopeValidation();
         
         // Append operation
@@ -171,10 +177,10 @@ module.exports = class Validator {
     /**
      * Minimum length
      * 
-     * @param {Number} length 
+     * @param {number} length 
      * @returns {Validator}
      */
-    minLength(length) {
+    minLength(length: number) {
         this.scopeValidation();
         
         // Append operation
@@ -191,7 +197,7 @@ module.exports = class Validator {
      * @param {number} max Maximum length 
      * @returns {Validator}
      */
-    lengthRange(min, max) {
+    lengthRange(min: number, max: number) {
         this.scopeValidation();
         
         // Append operation
@@ -259,7 +265,7 @@ module.exports = class Validator {
      * 
      * @returns {Validator}
      */
-    numRange(min, max) {
+    numRange(min: number, max: number) {
         this.scopeValidation();
         
         this.scope.appendOperation(Operation.NumRange, {min, max});

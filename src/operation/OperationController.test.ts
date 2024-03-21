@@ -1,6 +1,6 @@
-const FieldData = require("../model/FieldData");
-const Operation = require("../model/Operation");
-const OperationController = require("./OperationController");
+import FieldData from "../model/FieldData";
+import Operation from "../model/Operation";
+import OperationController from "./OperationController";
 
 // Username
 let username = new FieldData(

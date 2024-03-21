@@ -6,7 +6,7 @@
  * 
  * @returns {boolean}
  */
-function isNotFalsy(data) {
+function isNotFalsy(data: any) {
     return data && true || false;
 }
 
@@ -14,10 +14,10 @@ function isNotFalsy(data) {
  * Max length
  * 
  * @param {string} data Some text
- * @param {Number} length Maximum length
+ * @param {number} length Maximum length
  * @returns {boolean}
  */
-function maxLength(data, length) {
+function maxLength(data: string, length: number) {
     return data.length <= length;
 }
 
@@ -25,10 +25,10 @@ function maxLength(data, length) {
  * Minimum length
  * 
  * @param {string} data Some text
- * @param {Number} length Minimum length
+ * @param {number} length Minimum length
  * @returns {boolean}
  */
-function minLength(data, length) {
+function minLength(data: string, length: number) {
     return data.length >= length;
 }
 
@@ -40,7 +40,7 @@ function minLength(data, length) {
  * @param {number} maxLen Maximum length
  * @returns {boolean} True if it's in the range
  */
-function lengthRange(data, minLen, maxLen) {
+function lengthRange(data: string, minLen: number, maxLen: number) {
     return data.length >= minLen && data.length <= maxLen;
 }
 
@@ -50,7 +50,7 @@ function lengthRange(data, minLen, maxLen) {
  * @param {string} data Some text
  * @returns {boolean}
  */
-function isEmail(data) {
+function isEmail(data: string) {
     return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data));
 }
 
@@ -64,7 +64,7 @@ function isEmail(data) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isNum(data) {
+function isNum(data: any) {
     return (typeof(data) === typeof(0)) || (typeof(data) === typeof(0.0));
 }
 
@@ -74,7 +74,7 @@ function isNum(data) {
  * @param {*} data Data object
  * @returns {boolean}
  */
-function isInt(data) {
+function isInt(data: any) {
     return typeof(data) === typeof(0);
 }
 
@@ -84,7 +84,7 @@ function isInt(data) {
  * @param {*} data Data object
  * @returns {boolean}
  */
-function isFloat(data) {
+function isFloat(data: any) {
     return !(data % 1 === 0);
 }
 
@@ -99,7 +99,7 @@ function isFloat(data) {
  * @param {number} max Range end
  * @returns {boolean}
  */
-function numRange(data, min, max) {
+function numRange(data: number, min: number, max: number) {
     return (data >= min && data <= max);
 }
 
@@ -110,7 +110,7 @@ function numRange(data, min, max) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isStr(data) {
+function isStr(data: any) {
     return (typeof(data) === typeof(""));
 }
 
@@ -121,7 +121,7 @@ function isStr(data) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isBool(data) {
+function isBool(data: any) {
     return (typeof(data) === typeof(true));
 }
 
@@ -132,7 +132,7 @@ function isBool(data) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isArray(data) {
+function isArray(data: any) {
     return (typeof(data) === typeof([]));
 }
 
@@ -143,11 +143,11 @@ function isArray(data) {
  * @param {*} data Any kind of data type
  * @returns {boolean}
  */
-function isObject(data) {
+function isObject(data: any) {
     return (typeof(data) === typeof({}));
 }
 
-module.exports = {
+const FUNCTIONS = {
     isNotFalsy,
     maxLength,
     minLength,
@@ -162,3 +162,5 @@ module.exports = {
     isArray,
     isObject,
 }
+
+export default FUNCTIONS;

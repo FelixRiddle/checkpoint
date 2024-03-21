@@ -1,17 +1,24 @@
 // Operation controller
 //
 // Operation is low level code, normally you would use one of the high level apis
-const FailureMessage = require("./FailureMessage");
-const Operation = require("../model/Operation");
-const operationLib = require("./operationLib");
-const FieldData = require("../model/FieldData");
+import FailureMessage from "./FailureMessage";
+import Operation from "../model/Operation";
+import OperationFunctions from "./operationLib";
+import FieldData from "../model/FieldData";
+
+interface OperationControllerConfig {
+    debug: boolean;
+}
 
 /**
  * Operation controller class
  * 
  * This is used to perform operations more easily.
  */
-module.exports = class OperationController {
+export default class OperationController {
+    operation: number;
+    fieldData: FieldData;
+    config: OperationControllerConfig;
     
     /**
      * Create operation controller
@@ -19,9 +26,10 @@ module.exports = class OperationController {
      * @param {number} operation Operation id.
      * @param {FieldData} fieldData Field data container
      * @param {object} args Operation arguments, like max length, min length, etc.
-     * For the args it doesn't matter the names, just the order.
+     * 
+     * The name doesn't matter, what matters for the 'args' argument is the order.
      */
-    constructor(operation, fieldData, args = {}, config = { debug: false }) {
+    constructor(operation: number, fieldData: FieldData, args = {}, config = { debug: false }) {
         this.operation = operation;
         this.fieldData = fieldData;
         this.args = args;
@@ -79,55 +87,56 @@ module.exports = class OperationController {
         // Execute operation
         switch(this.operation) {
             case(Operation.IsNotFalsy): {
-                result = operationLib.isNotFalsy(this.fieldData.data, ...Object.values(this.args));
+                const values = Object.values(this.args);
+                result = OperationFunctions.isNotFalsy(this.fieldData.data, ...values);
                 break;
             }
             case Operation.MaxLength: {
-                result = operationLib.maxLength(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.maxLength(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.MinLength: {
-                result = operationLib.minLength(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.minLength(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsEmail: {
-                result = operationLib.isEmail(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isEmail(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.NumRange: {
-                result = operationLib.numRange(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.numRange(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsNum: {
-                result = operationLib.isNum(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isNum(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsStr: {
-                result = operationLib.isStr(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isStr(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsBool: {
-                result = operationLib.isBool(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isBool(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsArray: {
-                result = operationLib.isArray(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isArray(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsObject: {
-                result = operationLib.isObject(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isObject(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.LengthRange: {
-                result = operationLib.lengthRange(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.lengthRange(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsInt: {
-                result = operationLib.isInt(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isInt(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             case Operation.IsFloat: {
-                result = operationLib.isFloat(this.fieldData.data, ...Object.values(this.args));
+                result = OperationFunctions.isFloat(this.fieldData.data, ...Object.values(this.args));
                 break;
             }
             default: {
@@ -210,4 +219,4 @@ module.exports = class OperationController {
         
         return result;
     }
-};
+}

@@ -1,16 +1,25 @@
+
+interface FieldDataConfig {
+    debug: boolean,
+}
+
 /**
  * Field data class
  * 
  * It stores the field data, like the field name, its data, and stuff.
  */
-module.exports = class FieldData {
+export default class FieldData {
+    fieldName: string;
+    data: any;
+    config: FieldDataConfig;
+    
     /**
      * Create field data
      * 
      * @param {string} fieldName Field name
      * @param {*} data Data
      */
-    constructor(fieldName, data, config = { debug: false}) {
+    constructor(fieldName: string, data: any, config = { debug: false}) {
         this.fieldName = fieldName;
         this.data = data;
         this.config = config;
@@ -29,4 +38,4 @@ module.exports = class FieldData {
         
         return newFieldData;
     }
-};
+}

@@ -1,12 +1,12 @@
 // Commands
 // 
 // Reason, some things can't be seen in tests, like messages.
-const { ArgumentParser } = require("argparse");
+import { ArgumentParser } from "argparse";
 
-const message = require("./message");
-const Scope = require("../Scope");
+import message from "./message";
+import Scope from "../Scope";
 
-const test = require("./cmd_test");
+import test from "./cmd_test";
 
 const parser = new ArgumentParser({
     description: "Some commands"

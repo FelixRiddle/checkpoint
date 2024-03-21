@@ -1,16 +1,22 @@
-const ValidationResult = require("./ValidationResult.js");
-const FieldData = require("./model/FieldData.js");
-const OperationController = require("./operation/OperationController.js");
+import ValidationResult from "./ValidationResult.js";
+import FieldData from "./model/FieldData.js";
+import OperationController from "./operation/OperationController.js";
+
+interface ScopeConfig {
+    debug: boolean,
+}
 
 /**
  * Scope class
  * 
  * Used to quantize operations and store operations.
  */
-module.exports = class Scope {
+export default class Scope {
     name = "";
     // Array of 'OperationController's
     operations = [];
+    config: ScopeConfig;
+    fieldData: FieldData;
     
     /**
      * Construct with field data
@@ -19,7 +25,7 @@ module.exports = class Scope {
      * @param {FieldData} fieldData Field data
      * @param {Object} config Configuration data
      */
-    constructor(scopeName, fieldData, config = {
+    constructor(scopeName: string, fieldData: FieldData, config = {
         debug: false,
     }) {
         this.name = scopeName;

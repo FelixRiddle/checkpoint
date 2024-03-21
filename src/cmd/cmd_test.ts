@@ -1,5 +1,5 @@
-const { Namespace } = require("argparse");
-const Validator = require("../Validator");
+import { Namespace } from "argparse";
+import Validator from "../Validator";
 
 /**
  * Main function 

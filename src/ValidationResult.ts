@@ -2,7 +2,7 @@
  * The result of a validation
  * 
  */
-module.exports = class ValidationResult {
+export default class ValidationResult {
     error = false;
     message = "";
     field = "";
@@ -33,7 +33,7 @@ module.exports = class ValidationResult {
      * @param {string} message The field message for example 'Email not given'
      * @returns {ValidationResult}
      */
-    setAsError(field, message) {
+    setAsError(field: string, message: string) {
         this.error = true;
         this.field = field;
         this.message = message;
@@ -48,7 +48,7 @@ module.exports = class ValidationResult {
      * @param {string} message The field message for example 'Email Ok'
      * @returns {ValidationResult}
      */
-    setAsSuccess(field, message) {
+    setAsSuccess(field: string, message: string) {
         this.error = false;
         this.field = field;
         this.message = message;

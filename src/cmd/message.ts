@@ -1,7 +1,7 @@
-const op = require("../model/Operation");
+import op from "../model/Operation";
 
 // See example message
-module.exports = function() {
+export default function() {
     // Get failure message
     let msg = op.failureMessage(
         op.IsNotFalsy,

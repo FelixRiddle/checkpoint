@@ -1,7 +1,11 @@
-const ValidationResult = require("./ValidationResult");
-const Validator = require("./Validator");
+import ValidationResult from "./ValidationResult";
+import Validator from "./Validator";
+import { testMessage } from "./test/testMessage";
 
-test("Email scope", () => {
+/**
+ * Email scope test
+ */
+export function testEmailScope() {
     // Create validator
     let val = new Validator()
         .createScope("email", "email", "felix@email.com")
@@ -13,10 +17,13 @@ test("Email scope", () => {
     let result = val.validate();
     
     // If validations passed, the resulting messages are 0
-    expect(result.length).toBe(0);
-});
+    testMessage(result.length === 0, "Email scope")
+}
 
-test("Wrong email returns error messages", () => {
+/**
+ * Wrong email returns error
+ */
+export function testWrongEmailReturnsErrorMessages() {
     // Create validator
     let val = new Validator()
         .createScope("email", "email", "fe@a")
@@ -28,11 +35,15 @@ test("Wrong email returns error messages", () => {
     let result = val.validate();
     
     // Validate that there are more than 0 messages
-    expect(result.length > 0).toBe(true);
-});
+    testMessage(result.length > 0, "Wrong email returns error messages");
+}
 
-// I require to share variables to not repeat code twice
-(() => {
+/**
+ * Scope tests
+ * 
+ * I require to share variables to not repeat code twice
+ */
+export function testScopes() {
     // Use scope example
     // Create validator
     let val = new Validator()
@@ -55,18 +66,16 @@ test("Wrong email returns error messages", () => {
     // Perform validations
     let result = val.validate();
     
-    test("Use same scope on another email", () => {
-        // If validations passed, the resulting messages are 0
-        expect(result.length).toBe(0);
-    });
-    
-    test("New scope doesn't have previous data", () => {
-        // Validate that both scopes have different values
-        expect(firstScope.fieldData.data !== secondScope.fieldData.data).toBe(true);
-    });
-})();
+    // If validations passed, the resulting messages are 0
+    testMessage(result.length === 0, "Use same scope on another email");
+    // Validate that both scopes have different values
+    testMessage(firstScope.fieldData.data !== secondScope.fieldData.data, "New scope doesn't have previous data");
+}
 
-(() => {
+/**
+ * Scope works
+ */
+export function testSameScopeDifferentField() {
     // Now we run a test in  which another field uses the same scope
     let val = new Validator()
         .createScope("email", "email", "felix@email.com")
@@ -78,13 +87,14 @@ test("Wrong email returns error messages", () => {
     // Perform validations
     let result = val.validate();
     
-    test("Use same scope on another email", () => {
-        // If validations passed, the resulting messages are 0
-        expect(result.length).toBe(0);
-    });
-})();
+    // If validations passed, the resulting messages are 0
+    testMessage(result.length === 0, "Use same scope on another email")
+}
 
-(() => {
+/**
+ * Test scope works 2
+ */
+export function testScopeAssertErrors() {
     // Now we run a test in  which another field uses the same scope
     let val = new Validator({ debug: false })
         .createScope("email", "email", "felix@.com")
@@ -102,19 +112,18 @@ test("Wrong email returns error messages", () => {
         let typesMatch = first instanceof ValidationResult;
         
         // Validate it's an exact type
-        test("Type is 'ValidationResult'", () => {
-            expect(typesMatch).toBe(true);
-        });
+        testMessage(typesMatch, "Type is 'ValidationResult'");
     }
     
     // 2 for wrong emails, 2 for length range
-    test("Validate that there are exactly 4 errors", () => {
-        // If validations passed, the resulting messages are 0
-        expect(result.length).toBe(4);
-    });
-})();
+    // If validations passed, the resulting messages are 0
+    testMessage(result.length === 4, "Validate that there are exactly 4 errors");
+}
 
-(() => {
+/**
+ * Test multiple scopes
+ */
+export function testMultipleScopes() {
     // Testing multiple scopes
     let val = new Validator({ debug: false })
         .createScope("email", "email", "felix@email.com")
@@ -142,13 +151,15 @@ test("Wrong email returns error messages", () => {
     let result = val.validate();
     
     // 2 for wrong emails, 2 for length range
-    test("There are exactly 2 errors", () => {
-        expect(result.length === 2).toBe(true);
-    });
-})();
+    testMessage(result.length === 2, "There are exactly 2 errors");
+}
 
-
-(() => {
+/**
+ * Frontend validation
+ * 
+ * One with many fields
+ */
+export function testFullFledgedFrontendValidation() {
     // Data heavy one
     let resultObject = {
         "title": "asdfasdf",
@@ -195,7 +206,5 @@ test("Wrong email returns error messages", () => {
     // Perform validations
     let result = val.validate();
     
-    test("Property data passes", () => {
-        expect(result.length === 0).toBe(true);
-    });
-})();
+    testMessage(result.length === 0, "Property data passes");
+}
