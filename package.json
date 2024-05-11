@@ -9,8 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "node index.js",
-    "cmd": "node src/cmd/index.js",
+    "start": "ts-node src/cmd/index.ts",
     "test": "ts-node src/cmd/index.ts --test",
     "build": "tsup"
   },
